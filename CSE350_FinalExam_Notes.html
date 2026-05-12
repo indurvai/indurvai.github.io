@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSE350 — Final Exam Notes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #14171f;
+    --surface2: #1a1e29;
+    --border: #252a38;
+    --accent: #4af0b0;
+    --accent2: #f0a84a;
+    --accent3: #4a9af0;
+    --accent4: #f04a6e;
+    --text: #d8dce8;
+    --text-dim: #7a8099;
+    --heading: #eef0f8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, #0d1520 0%, #0d1a2a 50%, #0a1218 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 40px 48px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(74,240,176,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--heading);
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  header p {
+    color: var(--text-dim);
+    font-size: 14px;
+  }
+  .pill {
+    display: inline-block;
+    background: rgba(74,240,176,0.12);
+    color: var(--accent);
+    border: 1px solid rgba(74,240,176,0.25);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    margin-left: 10px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  nav a {
+    color: var(--text-dim);
+    text-decoration: none;
+    padding: 14px 18px;
+    font-size: 13px;
+    font-weight: 400;
+    font-family: 'IBM Plex Mono', monospace;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+  nav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── MAIN LAYOUT ── */
+  main { max-width: 1000px; margin: 0 auto; padding: 40px 48px 80px; }
+
+  /* ── CHAPTER SECTIONS ── */
+  .chapter {
+    margin-bottom: 60px;
+  }
+  .chapter-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ch-num {
+    background: var(--accent);
+    color: #0d0f14;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 13px;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  .chapter-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--heading);
+    letter-spacing: -0.3px;
+  }
+  .chapter-header .ch-sub {
+    color: var(--text-dim);
+    font-size: 13px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    color: var(--accent2);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--heading);
+    margin-bottom: 10px;
+  }
+  .card p { margin-bottom: 10px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  /* ── FORMULA BLOCKS ── */
+  .formula-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--accent);
+    line-height: 2;
+  }
+  .formula-block.orange { border-left-color: var(--accent2); color: var(--accent2); }
+  .formula-block.blue   { border-left-color: var(--accent3); color: var(--accent3); }
+  .formula-block.red    { border-left-color: var(--accent4); color: var(--accent4); }
+
+  /* ── TABLES ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13.5px;
+  }
+  th {
+    background: var(--surface2);
+    color: var(--heading);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* ── LISTS ── */
+  ul, ol {
+    padding-left: 22px;
+    margin: 8px 0;
+  }
+  li { margin-bottom: 6px; }
+
+  /* ── TOPIC BADGE ── */
+  .topic {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 6px;
+    margin-bottom: 4px;
+  }
+  .t-op   { background: rgba(74,240,176,0.12); color: var(--accent); border: 1px solid rgba(74,240,176,0.2); }
+  .t-pwr  { background: rgba(240,168,74,0.12); color: var(--accent2); border: 1px solid rgba(240,168,74,0.2); }
+  .t-nm   { background: rgba(74,154,240,0.12); color: var(--accent3); border: 1px solid rgba(74,154,240,0.2); }
+  .t-fan  { background: rgba(240,74,110,0.12); color: var(--accent4); border: 1px solid rgba(240,74,110,0.2); }
+
+  /* ── GRID ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
+  @media (max-width: 700px) { .grid-2 { grid-template-columns: 1fr; } main { padding: 24px 20px 60px; } }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: rgba(240,74,110,0.08);
+    border: 1px solid rgba(240,74,110,0.2);
+    border-left: 3px solid var(--accent4);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 13.5px;
+    color: #f8b8c4;
+  }
+  .callout strong { color: var(--accent4); }
+
+  .callout.green {
+    background: rgba(74,240,176,0.07);
+    border-color: rgba(74,240,176,0.2);
+    border-left-color: var(--accent);
+    color: #b0f0da;
+  }
+  .callout.green strong { color: var(--accent); }
+
+  .callout.blue {
+    background: rgba(74,154,240,0.07);
+    border-color: rgba(74,154,240,0.2);
+    border-left-color: var(--accent3);
+    color: #b0d0f8;
+  }
+  .callout.blue strong { color: var(--accent3); }
+
+  /* ── REGION TABLE special ── */
+  .region-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* ── DIVIDER ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  /* ── INLINE CODE ── */
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: var(--accent);
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">CSE350 · Digital Electronics & Pulse Techniques</div>
+  <h1>Final Exam Study Notes <span class="pill">Complete</span></h1>
+  <p>RTL · DTL · TTL · NMOS · CMOS — Theory, Formulas, Graphs & Analysis</p>
+</header>
+
+<nav>
+  <a href="#bjt">BJT Review</a>
+  <a href="#rtl">RTL NOT</a>
+  <a href="#dtl">DTL NAND</a>
+  <a href="#ttl">TTL NAND</a>
+  <a href="#nmos">NMOS Logic</a>
+  <a href="#cmos">CMOS Logic</a>
+</nav>
+
+<main>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 0 — BJT REVIEW
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="bjt">
+  <div class="chapter-header">
+    <div class="ch-num">0</div>
+    <div>
+      <h2>BJT Operating Modes — Review</h2>
+      <div class="ch-sub">Required background for RTL, DTL, TTL analysis</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Four Operating Modes</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Mode</th>
+          <th>B-E Junction</th>
+          <th>B-C Junction</th>
+          <th>Key Voltages</th>
+          <th>Checking Condition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--accent)">Forward Active</strong></td>
+          <td>Forward</td>
+          <td>Reverse</td>
+          <td>V<sub>BE</sub> = 0.7 V, V<sub>BC</sub> &lt; 0</td>
+          <td>V<sub>CE</sub> &gt; 0.2 V; I<sub>C</sub> = β<sub>F</sub>·I<sub>B</sub></td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent2)">Saturation</strong></td>
+          <td>Forward</td>
+          <td>Forward</td>
+          <td>V<sub>BE</sub> = 0.8 V, V<sub>CE</sub> = 0.1–0.2 V</td>
+          <td>β<sub>forced</sub> = I<sub>C</sub>/I<sub>B</sub> &lt; β<sub>F</sub></td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--text-dim)">Cut-off</strong></td>
+          <td>Reverse</td>
+          <td>Reverse</td>
+          <td>V<sub>BE</sub> &lt; 0.5 V</td>
+          <td>I<sub>E</sub> = I<sub>C</sub> = I<sub>B</sub> = 0</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent3)">Reverse Active</strong></td>
+          <td>Reverse</td>
+          <td>Forward</td>
+          <td>V<sub>BC</sub> = 0.7 V; V<sub>E</sub> > V<sub>B</sub> > V<sub>C</sub></td>
+          <td>β<sub>R</sub> = I<sub>E</sub>/I<sub>B</sub> ≈ 0.1–0.3; I<sub>C</sub> = I<sub>E</sub> + I<sub>B</sub></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Forward Active</div>
+      <div class="formula-block">
+        I<sub>C</sub> = β<sub>F</sub> · I<sub>B</sub><br>
+        I<sub>E</sub> = I<sub>C</sub> + I<sub>B</sub>
+      </div>
+      <p>β<sub>F</sub> is typically large (30–100). V<sub>CE</sub> is free to vary; must be &gt; 0.2 V.</p>
+    </div>
+    <div class="card">
+      <div class="card-title">Saturation</div>
+      <div class="formula-block orange">
+        I<sub>C</sub> = β<sub>forced</sub> · I<sub>B</sub><br>
+        β<sub>forced</sub> &lt; β<sub>F</sub><br>
+        V<sub>CE</sub> = 0.2 V (fixed by external circuit)
+      </div>
+      <p>I<sub>C</sub> is set by external circuit (V<sub>CC</sub> and R<sub>C</sub>). β<sub>forced</sub> &lt; β<sub>F</sub> confirms saturation.</p>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <strong>Multi-Emitter BJT (used in TTL):</strong> Each emitter makes an independent B-E junction. If <em>any</em> B-E junction is forward biased, it dominates. For reverse active mode with N emitters: I<sub>E1</sub> + I<sub>E2</sub> + … + I<sub>B</sub> = I<sub>C</sub>. Each emitter shares the current equally: I<sub>Ei</sub> = β<sub>R</sub> · I<sub>B</sub>.
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 1 — RTL NOT GATE
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="rtl">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:var(--accent2)">1</div>
+    <div>
+      <h2>Resistor Transistor Logic (RTL)</h2>
+      <div class="ch-sub">NOT Gate · NOR Gate · Noise Margin · Fanout</div>
+    </div>
+  </div>
+
+  <!-- Basic Operation -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> RTL NOT Gate</div>
+    <p>Circuit: V<sub>A</sub> → R<sub>1</sub> → node → R<sub>B</sub> → BJT Base; R<sub>C</sub> from V<sub>CC</sub> to Collector; −V<sub>S</sub> at the bottom of R<sub>1</sub>. Constraints: R<sub>1</sub> ≫ R<sub>B</sub>.</p>
+    <table>
+      <thead><tr><th>Input V<sub>A</sub></th><th>BJT State</th><th>Output V<sub>Y</sub></th><th>Logic</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Low (≈ 0–0.2 V)</strong></td>
+          <td>Cut-off (V<sub>BE</sub> &lt; 0.5 V) → open circuit</td>
+          <td>V<sub>CC</sub> (no drop across R<sub>C</sub>)</td>
+          <td>0 → 1 ✓</td>
+        </tr>
+        <tr>
+          <td><strong>High (≈ V<sub>CC</sub>)</strong></td>
+          <td>Saturation → V<sub>CE</sub> = 0.2 V, V<sub>BE</sub> = 0.8 V</td>
+          <td>0.2 V</td>
+          <td>1 → 0 ✓</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>To verify saturation in Case (1): calculate β<sub>forced</sub> = I<sub>C</sub>/I<sub>B</sub> and confirm β<sub>forced</sub> &lt; β<sub>F</sub>.</p>
+  </div>
+
+  <!-- RTL NOR Gate -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> RTL NOR Gate</div>
+    <p>Two BJTs (Q<sub>A</sub>, Q<sub>B</sub>) in parallel with a shared R<sub>C</sub>. Any BJT in saturation drives output low.</p>
+    <table>
+      <thead><tr><th>Case</th><th>Q<sub>A</sub></th><th>Q<sub>B</sub></th><th>V<sub>Y</sub></th></tr></thead>
+      <tbody>
+        <tr><td>(0,0)</td><td>Cut-off</td><td>Cut-off</td><td>V<sub>CC</sub> (High) ✓</td></tr>
+        <tr><td>(0,1) or (1,0)</td><td>Cut-off / Sat</td><td>Sat / Cut-off</td><td>0.2 V (Low) ✓</td></tr>
+        <tr><td>(1,1)</td><td>Saturation</td><td>Saturation</td><td>0.2 V (Low) ✓; I<sub>RC</sub> = I<sub>CA</sub> + I<sub>CB</sub></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Power Dissipation -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-pwr">Power</span> RTL NOT Gate — Power Dissipation</div>
+    <p>Power = Σ (voltage across source) × (current through source). Trace each current path for each input case.</p>
+    <div class="formula-block orange">
+      P<sub>0</sub> = (V<sub>A</sub> − (−V<sub>S</sub>)) × I<sub>1</sub><br><br>
+      P<sub>1</sub> = (V<sub>A</sub> − 0.8)·I<sub>RB</sub> + (0.8 − (−V<sub>S</sub>))·I<sub>R1</sub><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (0.8 − 0)·I<sub>B</sub> + (V<sub>CC</sub> − 0)·I<sub>C</sub>
+    </div>
+    <ul>
+      <li><strong>Case (0):</strong> Only R<sub>1</sub> path active (V<sub>A</sub> through R<sub>B</sub>+R<sub>1</sub> to −V<sub>S</sub>). P<sub>0</sub> is very small.</li>
+      <li><strong>Case (1):</strong> Multiple paths — base drive (V<sub>A</sub>→R<sub>B</sub>→base), R<sub>1</sub> path (base→R<sub>1</sub>→−V<sub>S</sub>), collector path (V<sub>CC</sub>→R<sub>C</sub>→collector). Use KCL to find all currents.</li>
+      <li><strong>Average:</strong> P<sub>avg</sub> = (P<sub>0</sub> + P<sub>1</sub>) / 2</li>
+      <li><strong>Maximum:</strong> P<sub>max</sub> = max(P<sub>0</sub>, P<sub>1</sub>) — almost always P<sub>1</sub>.</li>
+    </ul>
+    <div class="callout">
+      <strong>When −V<sub>S</sub> = 0 (grounded):</strong> Case (0) power drops dramatically, making the P<sub>max</sub>/P<sub>min</sub> ratio extremely large.
+    </div>
+  </div>
+
+  <!-- NOR Power -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-pwr">Power</span> RTL NOR Gate — Power Dissipation</div>
+    <div class="formula-block orange">
+      P<sub>(0,0)</sub> = 2 × (V<sub>A</sub> − (−V<sub>S</sub>)) × I<sub>1</sub><br><br>
+      P<sub>(1,0)</sub> = (V<sub>A</sub> − 0.8)·I<sub>RB</sub> + (0.8 − (−V<sub>S</sub>))·I<sub>R1</sub><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (0.8 − 0)·I<sub>B</sub> + (V<sub>CC</sub> − 0)·I<sub>RC</sub> + (V<sub>B</sub> − (−V<sub>S</sub>))·I<sub>1,other</sub><br><br>
+      P<sub>(1,1)</sub> = 2 × [(V<sub>A</sub> − (−V<sub>S</sub>))·I<sub>RB</sub> + (V<sub>B</sub> − 0)·I<sub>B</sub>] + (V<sub>CC</sub> − 0)·I<sub>RC</sub>
+    </div>
+    <p>For case (1,1): I<sub>RC</sub> splits equally into both collector currents (symmetric circuit).</p>
+  </div>
+
+  <!-- Noise Margin -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-nm">Noise Margin</span> Theory & Calculation</div>
+    <p><strong>Definition:</strong> The maximum noise voltage tolerable in a transmission line between logic stages without causing incorrect logic detection.</p>
+    <div class="formula-block blue">
+      V<sub>NH</sub> = V<sub>OH</sub> − V<sub>IH</sub> &nbsp;&nbsp; (high noise margin)<br>
+      V<sub>NL</sub> = V<sub>IL</sub> − V<sub>OL</sub> &nbsp;&nbsp; (low noise margin)<br>
+      V<sub>N</sub> = min(V<sub>NH</sub>, V<sub>NL</sub>) &nbsp;&nbsp; (overall noise margin)
+    </div>
+    <table>
+      <thead><tr><th>Threshold</th><th>Definition</th><th>How to Find (RTL)</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><code>V<sub>OL</sub></code></td>
+          <td>Max low output voltage</td>
+          <td>Fixed at 0.1 or 0.2 V (BJT saturation, given by manufacturer)</td>
+        </tr>
+        <tr>
+          <td><code>V<sub>OH</sub></code></td>
+          <td>Min high output voltage</td>
+          <td>Usually given (depends on loads). When unloaded, V<sub>OH</sub> = V<sub>CC</sub></td>
+        </tr>
+        <tr>
+          <td><code>V<sub>IH</sub></code></td>
+          <td>Min input recognized as HIGH</td>
+          <td>Marginal condition: β<sub>forced</sub> = β<sub>F</sub> (BJT shifts from sat → active). Solve for V<sub>IH</sub> using I<sub>C</sub>/I<sub>B</sub> = β<sub>F</sub></td>
+        </tr>
+        <tr>
+          <td><code>V<sub>IL</sub></code></td>
+          <td>Max input recognized as LOW</td>
+          <td>Marginal condition: V<sub>BE</sub> = 0.5 V (BJT turns on from cut-off). With I<sub>B</sub> = 0 in cut-off, solve KCL</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout green">
+      <strong>V<sub>IH</sub> method:</strong> Set I<sub>C</sub>/I<sub>B</sub> = β<sub>F</sub>, where I<sub>C</sub> = (V<sub>CC</sub> − V<sub>OL</sub>)/R<sub>C</sub> (output is still low). Solve for V<sub>IH</sub> from the base current equation.
+      <br><br>
+      <strong>V<sub>IL</sub> method:</strong> Set V<sub>BE</sub> = 0.5 V. Use KCL with I<sub>B</sub> = 0 (on the boundary of cut-off). Solve: (V<sub>IL</sub> − 0.5)/R<sub>B</sub> = (0.5 − (−V<sub>S</sub>))/R<sub>1</sub>, giving V<sub>IL</sub>.
+    </div>
+  </div>
+
+  <!-- Fanout -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-fan">Fanout</span> Maximum Fanout — RTL</div>
+    <p><strong>Fanout</strong> = number of loads connected to a single driver. <strong>Maximum fanout</strong> = max loads without logic malfunction.</p>
+
+    <h3 style="color:var(--heading); margin:14px 0 8px;">Case: Driver Output HIGH (Load draws current from driver)</h3>
+    <div class="formula-block">
+      N<sub>max</sub> = floor( I<sub>supply</sub> / I<sub>load</sub> )<br><br>
+      I<sub>supply</sub> = (V<sub>CC</sub> − V<sub>OH</sub>) / R<sub>C</sub><br>
+      I<sub>load</sub> = (V<sub>OH</sub> − 0.8) / R<sub>B,load</sub> &nbsp;(per load BJT in sat)
+    </div>
+
+    <h3 style="color:var(--heading); margin:14px 0 8px;">Case: Driver Output LOW (Load delivers current to driver)</h3>
+    <p>Loads increase I<sub>C</sub> of driver's BJT, risking exit from saturation. Marginal condition:</p>
+    <div class="formula-block">
+      β<sub>forced</sub> = β<sub>F</sub><br>
+      I<sub>C,total</sub> = I<sub>C,driver_alone</sub> + N × I<sub>load</sub><br>
+      Set I<sub>C,total</sub> / I<sub>B</sub> = β<sub>F</sub> → solve for N, then floor(N)
+    </div>
+
+    <h3 style="color:var(--heading); margin:14px 0 8px;">Case: No connection (open circuit between driver & load)</h3>
+    <p>Maximum fanout for this case = ∞ (load doesn't affect driver).</p>
+
+    <div class="callout">
+      <strong>Overall maximum fanout</strong> = min(N<sub>case1</sub>, N<sub>case2</sub>, …) across ALL input cases.
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 2 — DTL NAND GATE
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="dtl">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:var(--accent3)">2</div>
+    <div>
+      <h2>Diode Transistor Logic (DTL)</h2>
+      <div class="ch-sub">NAND Gate · Power Dissipation · Fanout</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> DTL NAND Gate</div>
+    <p>Circuit: Input diodes D<sub>A</sub>, D<sub>B</sub> → node P → two forward-bias diodes D<sub>1</sub>, D<sub>2</sub> → Base of BJT Q → R<sub>2</sub> to −V<sub>S</sub>. R<sub>1</sub> from V<sub>CC</sub> to node P. R<sub>C</sub> from V<sub>CC</sub> to Collector.</p>
+    <p><strong>Role of D<sub>1</sub>, D<sub>2</sub>:</strong> They create a voltage barrier. For Q to turn on, the total VP needed is V<sub>BE</sub> + V<sub>D1</sub> + V<sub>D2</sub> = 0.5 + 0.6 + 0.6 = 1.7 V. This prevents spurious turn-on.</p>
+    <table>
+      <thead><tr><th>Input Case</th><th>Active Diodes</th><th>V<sub>P</sub></th><th>Q State</th><th>V<sub>Y</sub></th></tr></thead>
+      <tbody>
+        <tr>
+          <td>(0,0), (0,1), (1,0)</td>
+          <td>At least one input diode ON</td>
+          <td>V<sub>low</sub> + 0.7 = 0.9 V &lt; 1.7 V</td>
+          <td>Cut-off (D<sub>1</sub>, D<sub>2</sub>, Q all OFF)</td>
+          <td>V<sub>CC</sub> (HIGH) ✓</td>
+        </tr>
+        <tr>
+          <td>(1,1)</td>
+          <td>D<sub>A</sub>, D<sub>B</sub> both OFF (reverse biased by high input)</td>
+          <td>2.2 V (= 0.8 + 0.7 + 0.7)</td>
+          <td>Saturation; V<sub>CE</sub> = 0.2 V</td>
+          <td>0.2 V (LOW) ✓</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout green">
+      <strong>Why not just a resistor instead of D<sub>1</sub>, D<sub>2</sub>?</strong> A resistor can't reliably block V<sub>P</sub> = 0.9 V from turning on the transistor. The diodes provide a definitive voltage threshold barrier.
+    </div>
+    <p><strong>DTL as NOT gate:</strong> Keep all inputs except one permanently HIGH: AB = A·1 = Ā (NAND with all-but-one tied high becomes a NOT gate).</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-pwr">Power</span> DTL NAND Gate — Power Dissipation</div>
+    <div class="formula-block orange">
+      P<sub>(0,0)</sub> = P<sub>(0,1)</sub> = P<sub>(1,0)</sub> = (V<sub>CC</sub> − 0.2) × I<sub>R1</sub><br>
+      &nbsp;&nbsp;[Only R<sub>1</sub> active; no collector current]<br><br>
+      P<sub>(1,1)</sub> = (V<sub>CC</sub> − 0) × I<sub>C</sub> + (V<sub>CC</sub> − V<sub>B</sub>) × I<sub>R1</sub><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (V<sub>B</sub> − 0) × (I<sub>R1</sub> − I<sub>R2</sub>) + (V<sub>B</sub> − (−V<sub>S</sub>)) × I<sub>R2</sub>
+    </div>
+    <p>For other cases: I<sub>R1</sub> = (V<sub>CC</sub> − V<sub>P</sub>)/R<sub>1</sub> where V<sub>P</sub> = V<sub>low</sub> + 0.7 = 0.9 V.</p>
+    <p>For case (1,1): V<sub>P</sub> = 2.2 V; I<sub>D1</sub> = I<sub>D2</sub>, and I<sub>B</sub> = I<sub>D1</sub> − I<sub>R2</sub>.</p>
+    <p><strong>Average Power:</strong> P<sub>avg</sub> = (P<sub>(0,0)</sub>×1 + P<sub>(0,1)</sub>×1 + P<sub>(1,0)</sub>×1 + P<sub>(1,1)</sub>×1) / 4</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-fan">Fanout</span> DTL NAND Gate — Fanout</div>
+    <p>When DTL NAND gates are used as loads connected to a DTL driver:</p>
+    <ul>
+      <li><strong>Driver output HIGH:</strong> The input diode of each load DTL gate will be <em>reverse biased</em> (high voltage at cathode). So there is no connection between driver and load → maximum fanout = <strong>∞</strong>.</li>
+      <li><strong>Driver output LOW (case 1,1):</strong> Load diodes are forward biased, delivering current to the driver's collector node, increasing I<sub>C</sub>. Marginal condition: <code>β<sub>forced</sub> = β<sub>F</sub></code> of driver BJT.</li>
+    </ul>
+    <div class="formula-block">
+      I<sub>C,driver</sub> + N × I<sub>load</sub> = β<sub>F</sub> × I<sub>B,driver</sub><br>
+      Solve for N, take floor(N)
+    </div>
+    <p>Each load delivers: I<sub>load</sub> = (V<sub>CC</sub> − V<sub>P,low_output</sub>) / R<sub>1,load</sub>, where V<sub>P,low_output</sub> = V<sub>OL</sub> + 0.7.</p>
+    <p><strong>Overall maximum fanout</strong> = min(∞, N<sub>lowcase</sub>) = N<sub>lowcase</sub>.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 3 — TTL NAND GATE
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="ttl">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:var(--accent4)">3</div>
+    <div>
+      <h2>Transistor Transistor Logic (TTL)</h2>
+      <div class="ch-sub">NAND Gate · Basic Operation · Power Dissipation</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> Multi-Emitter BJT</div>
+    <p>A BJT with multiple separate emitter regions. Each emitter forms its own B-E junction. Key rules:</p>
+    <ul>
+      <li>If <em>any one</em> B-E junction is forward biased, the BJT is active (not cut-off).</li>
+      <li>Reverse biased emitters play no role in determining operating mode.</li>
+      <li>In reverse active mode (B-C forward, all B-E reverse): I<sub>E1</sub> + I<sub>E2</sub> + … + I<sub>B</sub> = I<sub>C</sub>, with each I<sub>Ei</sub> = β<sub>R</sub> · I<sub>B</sub>.</li>
+      <li>I<sub>C</sub> = I<sub>B</sub>(1 + N·β<sub>R</sub>) for N emitters in reverse active mode.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> TTL NAND Gate — Circuit Analysis</div>
+    <p>Circuit: R<sub>B1</sub> from V<sub>CC</sub> to base of Q<sub>1</sub> (multi-emitter). Inputs V<sub>A</sub>, V<sub>B</sub> at emitters of Q<sub>1</sub>. Collector of Q<sub>1</sub> → Base of Q<sub>2</sub>. R<sub>C2</sub> from V<sub>CC</sub> to collector of Q<sub>2</sub>. Emitter of Q<sub>2</sub> → R<sub>E2</sub> → Base of Q<sub>3</sub>. R<sub>C3</sub> from V<sub>CC</sub> to collector of Q<sub>3</sub>. Output V<sub>Y</sub> at collector of Q<sub>3</sub>.</p>
+
+    <table>
+      <thead><tr><th>Case</th><th>Q<sub>1</sub></th><th>Q<sub>2</sub></th><th>Q<sub>3</sub></th><th>V<sub>Y</sub></th><th>Key Voltages</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>(0,0)</td>
+          <td>Saturation</td>
+          <td>Cut-off</td>
+          <td>Cut-off</td>
+          <td>V<sub>CC</sub> (HIGH)</td>
+          <td>V<sub>B1</sub> = V<sub>low</sub> + 0.8; V<sub>C1</sub> = V<sub>low</sub> + 0.2; V<sub>B2</sub> ≈ 0.4 V → Q<sub>2</sub> off</td>
+        </tr>
+        <tr>
+          <td>(0,1) or (1,0)</td>
+          <td>Saturation</td>
+          <td>Cut-off</td>
+          <td>Cut-off</td>
+          <td>V<sub>CC</sub> (HIGH)</td>
+          <td>The low-input emitter forward biases; same logic as (0,0)</td>
+        </tr>
+        <tr>
+          <td>(1,1)</td>
+          <td><strong>Reverse Active</strong></td>
+          <td>Saturation</td>
+          <td>Saturation</td>
+          <td>0.2 V (LOW)</td>
+          <td>V<sub>B1</sub> = 2.3 V; V<sub>B2</sub> = V<sub>C1</sub> = 1.6 V; V<sub>E2</sub> = V<sub>B3</sub> = 0.8 V</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>Why Reverse Active for Q<sub>1</sub> in case (1,1)?</strong> Both B-E junctions are reverse biased (high inputs). The B-C junction must be forward biased to carry current to Q<sub>2</sub>'s base. Hence: V<sub>BC1</sub> = 0.7 V, V<sub>B1</sub> = V<sub>C1</sub> + 0.7 = 1.6 + 0.7 = 2.3 V.
+    </div>
+
+    <h3 style="color:var(--heading); margin:14px 0 8px;">Solving Voltages in case (1,1) — step by step</h3>
+    <ol>
+      <li>Assume Q<sub>3</sub> in saturation → V<sub>B3</sub> = 0.8 V</li>
+      <li>V<sub>E2</sub> = V<sub>B3</sub> = 0.8 V → V<sub>B2</sub> = V<sub>E2</sub> + V<sub>BE2</sub> = 0.8 + 0.8 = 1.6 V</li>
+      <li>V<sub>C1</sub> = V<sub>B2</sub> = 1.6 V</li>
+      <li>V<sub>BC1</sub> = 0.7 V → V<sub>B1</sub> = V<sub>C1</sub> + 0.7 = 2.3 V</li>
+      <li>I<sub>B1</sub> = i<sub>1</sub> = (V<sub>CC</sub> − V<sub>B1</sub>) / R<sub>B1</sub></li>
+      <li>I<sub>EA</sub> = I<sub>EB</sub> = β<sub>R</sub> × I<sub>B1</sub> (current from emitters toward external circuit)</li>
+      <li>I<sub>C1</sub> = I<sub>B2</sub> = I<sub>EA</sub> + I<sub>EB</sub> + I<sub>B1</sub></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-pwr">Power</span> TTL NAND Gate — Power Dissipation</div>
+    <div class="formula-block orange">
+      P<sub>(0,0)</sub> = P<sub>(0,1)</sub> = P<sub>(1,0)</sub> = (V<sub>CC</sub> − V<sub>low</sub>) × I<sub>RB1</sub><br>
+      [Q<sub>2</sub> & Q<sub>3</sub> in cut-off; only R<sub>B1</sub> path active]<br><br>
+      P<sub>(1,1)</sub> = (V<sub>A</sub> − 0)·I<sub>EA</sub> + (V<sub>B</sub> − 0)·I<sub>EB</sub><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ (V<sub>CC</sub> − 0)·[I<sub>RB1</sub> + I<sub>RC2</sub> + I<sub>RC3</sub>]
+    </div>
+    <ul>
+      <li>In case (0,0)/(0,1)/(1,0): Only I<sub>RB1</sub> flows (through R<sub>B1</sub> into Q<sub>1</sub>'s base, and out through the forward-biased B-E junction to the low-input terminal).</li>
+      <li>In case (1,1): Current flows from both emitter inputs (V<sub>A</sub>, V<sub>B</sub> → emitters → external), and from V<sub>CC</sub> through R<sub>B1</sub>, R<sub>C2</sub>, and R<sub>C3</sub>.</li>
+    </ul>
+    <div class="formula-block orange">
+      P<sub>avg</sub> = (3 × P<sub>low_cases</sub> + P<sub>(1,1)</sub>) / 4
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 4 — NMOS LOGIC
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="nmos">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:#9f6af0">4</div>
+    <div>
+      <h2>NMOS Logic</h2>
+      <div class="ch-sub">NOT Gate · NOR Gate · Resistive, Enhancement & Depletion Loads</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">MOSFET Operating Modes — Summary</div>
+    <table>
+      <thead><tr><th>Mode</th><th>Condition (NMOS)</th><th>I<sub>DS</sub> Formula</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:var(--text-dim)">Cut-off</strong></td>
+          <td>V<sub>GS</sub> &lt; V<sub>TN</sub></td>
+          <td>I<sub>DS</sub> = 0 (open circuit)</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent)">Triode (Linear)</strong></td>
+          <td>V<sub>GS</sub> &gt; V<sub>TN</sub> and V<sub>DS</sub> &lt; V<sub>OV</sub></td>
+          <td>I<sub>DS</sub> = K<sub>n</sub>[2(V<sub>GS</sub> − V<sub>TN</sub>)V<sub>DS</sub> − V<sub>DS</sub>²]</td>
+        </tr>
+        <tr>
+          <td><strong style="color:var(--accent2)">Saturation</strong></td>
+          <td>V<sub>GS</sub> &gt; V<sub>TN</sub> and V<sub>DS</sub> &gt; V<sub>OV</sub></td>
+          <td>I<sub>DS</sub> = K<sub>n</sub>(V<sub>GS</sub> − V<sub>TN</sub>)²</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="formula-block">
+      Overdrive voltage: V<sub>OV</sub> = V<sub>GS</sub> − V<sub>TN</sub><br>
+      Transition (pinch-off) point: V<sub>DS</sub> = V<sub>OV</sub>
+    </div>
+    <p><strong>PMOS:</strong> Use V<sub>SG</sub>, V<sub>SD</sub>, V<sub>TP</sub> (negative for enhancement type); I<sub>D</sub> = K<sub>p</sub>[2(V<sub>SG</sub> + V<sub>TP</sub>)V<sub>SD</sub> − V<sub>SD</sub>²] (triode) or I<sub>D</sub> = K<sub>p</sub>(V<sub>SG</sub> + V<sub>TP</sub>)² (saturation).</p>
+
+    <div class="grid-2" style="margin-top:14px;">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;">
+        <p style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;">ENHANCEMENT NMOS</p>
+        <p>V<sub>TN</sub> &gt; 0. No channel at V<sub>GS</sub> = 0. Gate voltage must exceed V<sub>TN</sub> to form channel.</p>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;">
+        <p style="color:var(--accent3);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;">DEPLETION NMOS</p>
+        <p>V<sub>TN</sub> &lt; 0. Channel exists at V<sub>GS</sub> = 0. Always ON; gate can reduce or cut off channel.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- NMOS NOT - Resistive Load -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> NMOS Inverter — Resistive Load</div>
+    <table>
+      <thead><tr><th>Input V<sub>A</sub></th><th>NMOS State</th><th>V<sub>Y</sub></th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Low (0 V)</td>
+          <td>Cut-off (V<sub>GS</sub> &lt; V<sub>TN</sub>)</td>
+          <td>V<sub>DD</sub> (I<sub>RD</sub> = 0)</td>
+        </tr>
+        <tr>
+          <td>High (V<sub>DD</sub>)</td>
+          <td>Triode (designed so V<sub>DS</sub> &lt; V<sub>OV</sub>)</td>
+          <td>Very low (≈ 0.05–0.3 V typically)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>Solving for V<sub>Y</sub> in Case (1):</strong> Set I<sub>DS</sub> = I<sub>RD</sub>. Substitute triode formula, solve the quadratic. Discard the unphysical root (the one where I<sub>DS</sub> would be negative = current flowing backward).</p>
+    <div class="formula-block">
+      K<sub>n</sub>[2(V<sub>GS</sub> − V<sub>TN</sub>)V<sub>Y</sub> − V<sub>Y</sub>²] = (V<sub>DD</sub> − V<sub>Y</sub>) / R<sub>D</sub>
+    </div>
+    <p><strong>Verification:</strong> After solving, confirm V<sub>Y</sub> &lt; V<sub>OV</sub> = V<sub>GS</sub> − V<sub>TN</sub> (triode condition).</p>
+
+    <h3 style="color:var(--heading);margin:14px 0 8px;">Transition Point (Triode → Saturation boundary)</h3>
+    <p>At transition: V<sub>DS</sub> = V<sub>OV</sub>, and saturation I<sub>DS</sub> = K<sub>n</sub>·V<sub>Y</sub>² (since V<sub>DS</sub>=V<sub>Y</sub>=V<sub>OV</sub>). Set equal to I<sub>RD</sub>:</p>
+    <div class="formula-block">
+      K<sub>n</sub>·V<sub>Y</sub>² = (V<sub>DD</sub> − V<sub>Y</sub>) / R<sub>D</sub><br>
+      Solve for V<sub>Y</sub> (transition output voltage).<br>
+      Then: V<sub>A,transition</sub> = V<sub>Y</sub> + V<sub>TN</sub>
+    </div>
+  </div>
+
+  <!-- NMOS NOR - Resistive Load -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> NMOS NOR Gate — Resistive Load</div>
+    <p>Two enhancement NMOS (M<sub>A</sub>, M<sub>B</sub>) in parallel with shared R<sub>D</sub>.</p>
+    <table>
+      <thead><tr><th>Case</th><th>State</th><th>KCL Equation</th><th>V<sub>Y</sub></th></tr></thead>
+      <tbody>
+        <tr>
+          <td>(0,0)</td>
+          <td>Both cut-off</td>
+          <td>I<sub>RD</sub> = 0</td>
+          <td>V<sub>DD</sub></td>
+        </tr>
+        <tr>
+          <td>(0,1) or (1,0)</td>
+          <td>One triode, one cut-off</td>
+          <td>K<sub>n</sub>[2(V<sub>GS</sub>−V<sub>TN</sub>)V<sub>Y</sub>−V<sub>Y</sub>²] = (V<sub>DD</sub>−V<sub>Y</sub>)/R<sub>D</sub></td>
+          <td>Low (solve quadratic)</td>
+        </tr>
+        <tr>
+          <td>(1,1)</td>
+          <td>Both triode (symmetric)</td>
+          <td>2·K<sub>n</sub>[2(V<sub>GS</sub>−V<sub>TN</sub>)V<sub>Y</sub>−V<sub>Y</sub>²] = (V<sub>DD</sub>−V<sub>Y</sub>)/R<sub>D</sub></td>
+          <td>Even lower; I<sub>DA</sub>=I<sub>DB</sub>=I<sub>RD</sub>/2</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>V<sub>OL</sub></strong> = max of all low output values across cases (worst case low output).</p>
+  </div>
+
+  <!-- Power - NMOS -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-pwr">Power</span> NMOS Logic — Power Dissipation</div>
+    <div class="formula-block orange">
+      P<sub>(0)</sub> = 0 &nbsp;&nbsp;[Cut-off; I<sub>DS</sub> = 0, no current flows]<br>
+      P<sub>(1)</sub> = V<sub>DD</sub> × I<sub>RD</sub> = V<sub>DD</sub> × (V<sub>DD</sub> − V<sub>Y</sub>) / R<sub>D</sub><br><br>
+      P<sub>avg</sub> = (P<sub>(0)</sub> + P<sub>(1)</sub>) / 2
+    </div>
+    <p><strong>MOSFET gate current = 0 always.</strong> Power dissipation = (V<sub>DD</sub> − 0) × I<sub>supply</sub> for all "on" cases.</p>
+  </div>
+
+  <!-- Enhancement Load -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> Enhancement Type Load</div>
+    <p>Replace R<sub>D</sub> with an enhancement NMOS (M<sub>L</sub>) with its gate and drain shorted (V<sub>G</sub> = V<sub>D</sub>).</p>
+    <ul>
+      <li>V<sub>DS,L</sub> = V<sub>GS,L</sub> → always greater than or equal to V<sub>OV,L</sub> → <strong>always in saturation.</strong></li>
+      <li>V<sub>GS,L</sub> = V<sub>DD</sub> − V<sub>Y</sub> (since gate=drain=top node, source=output node).</li>
+    </ul>
+    <div class="formula-block">
+      I<sub>DL</sub> = K<sub>nL</sub>(V<sub>GS,L</sub> − V<sub>TN,L</sub>)²<br>
+         = K<sub>nL</sub>(V<sub>DD</sub> − V<sub>Y</sub> − V<sub>TN,L</sub>)²
+    </div>
+    <p><strong>Case (0):</strong> Driver in cut-off → I<sub>DD</sub> = 0 → I<sub>DL</sub> = 0 → V<sub>DD</sub> − V<sub>Y</sub> − V<sub>TN,L</sub> = 0 → <strong>V<sub>Y</sub> = V<sub>DD</sub> − V<sub>TN,L</sub></strong>.</p>
+    <p><strong>Case (1):</strong> Set I<sub>DL</sub> = I<sub>DD</sub> (driver in triode), solve the resulting quadratic for V<sub>Y</sub>.</p>
+  </div>
+
+  <!-- Depletion Load -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> Depletion Type Load</div>
+    <p>Replace R<sub>D</sub> with a depletion NMOS (M<sub>L</sub>) with its gate and source shorted (V<sub>GS,L</sub> = 0). V<sub>TN,L</sub> &lt; 0.</p>
+    <ul>
+      <li>V<sub>OV,L</sub> = V<sub>GS,L</sub> − V<sub>TN,L</sub> = 0 − V<sub>TN,L</sub> = |V<sub>TN,L</sub>| &gt; 0.</li>
+      <li>If V<sub>SD,L</sub> &gt; V<sub>OV,L</sub>: saturation → I<sub>DL</sub> = K<sub>nL</sub>(0 − V<sub>TN,L</sub>)² = K<sub>nL</sub>·V<sub>TN,L</sub>² (constant!).</li>
+      <li>If V<sub>SD,L</sub> &lt; V<sub>OV,L</sub>: triode.</li>
+    </ul>
+    <div class="callout green">
+      <strong>Key insight for depletion load:</strong> When output V<sub>Y</sub> is expected LOW (driver ON cases), the load M<sub>L</sub> will be in saturation (high V<sub>DS,L</sub>), providing a constant current source. When V<sub>Y</sub> is high (driver OFF), M<sub>L</sub> may be in triode → I<sub>DL</sub> = 0 → V<sub>Y</sub> = V<sub>DD</sub>.
+    </div>
+    <div class="formula-block">
+      Depletion load in saturation:<br>
+      I<sub>DL</sub> = K<sub>nL</sub>(0 − V<sub>TN,L</sub>)² = K<sub>nL</sub> × V<sub>TN,L</sub>²
+    </div>
+    <p><strong>Note:</strong> With K<sub>n</sub>' = K<sub>n</sub>·(W/L), the effective K<sub>n</sub> for each MOSFET = K<sub>n</sub>'·(W/L) for that device.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 5 — CMOS LOGIC
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="cmos">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:linear-gradient(135deg,var(--accent),var(--accent3))">5</div>
+    <div>
+      <h2>CMOS Logic</h2>
+      <div class="ch-sub">VTC · Noise Margin · Logic Implementation</div>
+    </div>
+  </div>
+
+  <!-- VTC -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">VTC</span> Ideal VTC of CMOS Inverter — 5 Regions</div>
+    <p>Circuit: PMOS (M<sub>P</sub>) between V<sub>DD</sub> and output; NMOS (M<sub>N</sub>) between output and GND. Both gates connected to input V<sub>I</sub>.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Region</th>
+          <th>Input Range</th>
+          <th>M<sub>N</sub> State</th>
+          <th>M<sub>P</sub> State</th>
+          <th>Output V<sub>O</sub></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="region-label">1</td>
+          <td>0 &lt; V<sub>I</sub> &lt; V<sub>TN</sub></td>
+          <td>Cut-off</td>
+          <td>Triode</td>
+          <td>V<sub>DD</sub></td>
+        </tr>
+        <tr>
+          <td class="region-label">2</td>
+          <td>V<sub>TN</sub> &lt; V<sub>I</sub> &lt; V<sub>It</sub></td>
+          <td>Saturation</td>
+          <td>Triode</td>
+          <td>High → decreasing (solve I<sub>DN</sub>=I<sub>DP</sub>)</td>
+        </tr>
+        <tr>
+          <td class="region-label">3</td>
+          <td>V<sub>I</sub> = V<sub>It</sub></td>
+          <td>Saturation (transition)</td>
+          <td>Saturation (transition)</td>
+          <td>V<sub>O</sub> falls steeply through V<sub>It</sub></td>
+        </tr>
+        <tr>
+          <td class="region-label">4</td>
+          <td>V<sub>It</sub> &lt; V<sub>I</sub> &lt; V<sub>DD</sub>−|V<sub>TP</sub>|</td>
+          <td>Triode</td>
+          <td>Saturation</td>
+          <td>Low → decreasing (solve I<sub>DN</sub>=I<sub>DP</sub>)</td>
+        </tr>
+        <tr>
+          <td class="region-label">5</td>
+          <td>V<sub>DD</sub>−|V<sub>TP</sub>| &lt; V<sub>I</sub> &lt; V<sub>DD</sub></td>
+          <td>Triode</td>
+          <td>Cut-off</td>
+          <td>0 V</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout green">
+      <strong>In regions 1 and 5</strong>, one transistor is cut-off → no current flows → zero static power dissipation. This is the key advantage of CMOS over NMOS/BJT logic.
+    </div>
+  </div>
+
+  <!-- Transition voltage -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Formula</span> Transition Voltage V<sub>It</sub> and Critical Points</div>
+    <p>At V<sub>I</sub> = V<sub>It</sub>: both transistors in saturation simultaneously. Set I<sub>DN</sub> = I<sub>DP</sub>:</p>
+    <div class="formula-block">
+      K<sub>N</sub>(V<sub>It</sub> − V<sub>TN</sub>)² = K<sub>P</sub>(V<sub>DD</sub> − V<sub>It</sub> + V<sub>TP</sub>)²
+    </div>
+    <p>Taking square roots (both sides positive):</p>
+    <div class="formula-block">
+      √K<sub>N</sub> (V<sub>It</sub> − V<sub>TN</sub>) = √K<sub>P</sub> (V<sub>DD</sub> − V<sub>It</sub> + V<sub>TP</sub>)
+    </div>
+    <div class="formula-block" style="background:rgba(74,240,176,0.08);border-left-color:var(--accent);">
+      <strong>V<sub>It</sub> = [√K<sub>P</sub>(V<sub>DD</sub> + V<sub>TP</sub>) + √K<sub>N</sub>·V<sub>TN</sub>] / (√K<sub>N</sub> + √K<sub>P</sub>)</strong>
+    </div>
+    <p>When K<sub>N</sub> = K<sub>P</sub> and |V<sub>TP</sub>| = V<sub>TN</sub>:</p>
+    <div class="formula-block">
+      V<sub>It</sub> = V<sub>DD</sub>/2 &nbsp;&nbsp;(symmetric inverter)
+    </div>
+
+    <h3 style="color:var(--heading);margin:14px 0 8px;">Output Transition Points</h3>
+    <div class="formula-block blue">
+      V<sub>OPt</sub> = V<sub>It</sub> − V<sub>TP</sub> &nbsp;&nbsp;[V<sub>O</sub> when M<sub>P</sub> transitions triode→sat]<br>
+      V<sub>ONt</sub> = V<sub>It</sub> − V<sub>TN</sub> &nbsp;&nbsp;[V<sub>O</sub> when M<sub>N</sub> transitions sat→triode]
+    </div>
+  </div>
+
+  <!-- Noise Margin -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-nm">Noise Margin</span> CMOS Inverter Noise Margin</div>
+    <p>The actual (practical) VTC differs from the ideal: the transition region is not perfectly vertical. The inflection points (slope = −1) define V<sub>IH</sub> and V<sub>IL</sub>.</p>
+    <div class="formula-block blue">
+      NM<sub>H</sub> = V<sub>OH</sub> − V<sub>IH</sub><br>
+      NM<sub>L</sub> = V<sub>IL</sub> − V<sub>OL</sub>
+    </div>
+
+    <h3 style="color:var(--heading);margin:14px 0 8px;">Finding V<sub>IL</sub> and V<sub>OH</sub> (M<sub>N</sub> in sat, M<sub>P</sub> in triode)</h3>
+    <ol>
+      <li>Write I<sub>DN</sub> = I<sub>DP</sub> with M<sub>N</sub> saturation formula and M<sub>P</sub> triode formula.</li>
+      <li>Differentiate both sides with respect to V<sub>I</sub>.</li>
+      <li>Set dV<sub>O</sub>/dV<sub>I</sub> = −1 (slope condition at inflection point).</li>
+      <li>This gives a relation: <code>V<sub>IL</sub> = V<sub>OH</sub> − (V<sub>DD</sub>/2)</code> (for K<sub>N</sub>=K<sub>P</sub>).</li>
+      <li>Substitute back into original current equation to find V<sub>OH</sub> and V<sub>IL</sub>.</li>
+    </ol>
+
+    <h3 style="color:var(--heading);margin:14px 0 8px;">Finding V<sub>IH</sub> and V<sub>OL</sub> (M<sub>N</sub> in triode, M<sub>P</sub> in sat)</h3>
+    <ol>
+      <li>Write I<sub>DN</sub> = I<sub>DP</sub> with M<sub>N</sub> triode formula and M<sub>P</sub> saturation formula.</li>
+      <li>Differentiate and set dV<sub>O</sub>/dV<sub>I</sub> = −1.</li>
+      <li>This gives: <code>V<sub>OL</sub> = V<sub>IH</sub> − (V<sub>DD</sub>/2)</code> (for K<sub>N</sub>=K<sub>P</sub>).</li>
+      <li>Substitute back to find V<sub>IH</sub> and V<sub>OL</sub>.</li>
+    </ol>
+
+    <div class="callout green">
+      <strong>Symmetric case (K<sub>N</sub>=K<sub>P</sub>, |V<sub>TP</sub>|=V<sub>TN</sub>):</strong> NM<sub>H</sub> = NM<sub>L</sub>. The VTC is symmetric about V<sub>DD</sub>/2. Example: V<sub>DD</sub>=5V, K<sub>N</sub>=K<sub>P</sub>=50µA/V², V<sub>TN</sub>=1V → V<sub>OH</sub>=4.625V, V<sub>IL</sub>=2.125V, V<sub>IH</sub>=2.875V, V<sub>OL</sub>=0.375V → NM<sub>H</sub>=NM<sub>L</sub>=1.75V.
+    </div>
+  </div>
+
+  <!-- Logic Implementation -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Implementation</span> CMOS Logic Circuit Design Rules</div>
+    <ol>
+      <li><strong>High input:</strong> turns ON NMOS, turns OFF PMOS. Low input does the opposite.</li>
+      <li><strong>ON MOSFET</strong> = short circuit (drain–source); <strong>OFF MOSFET</strong> = open circuit.</li>
+      <li><strong>Conduction Complement:</strong> NMOS network in series ↔ PMOS network in parallel (and vice versa). The PMOS network is the exact structural complement of the NMOS network.</li>
+      <li><strong>Pull-Down Network (PDN):</strong> made of NMOS transistors. When output should be LOW, a conducting path to GND exists.</li>
+      <li><strong>Pull-Up Network (PUN):</strong> made of PMOS transistors. When output should be HIGH, a conducting path to V<sub>DD</sub> exists.</li>
+      <li><strong>No resistors needed</strong> in CMOS — PMOS plays the role of the load.</li>
+      <li><strong>For non-inverted function Y = f(A,B,…):</strong> First design CMOS network for Ȳ, then add a CMOS inverter at output → Y.</li>
+      <li><strong>One transistor per variable, per network.</strong></li>
+    </ol>
+
+    <h3 style="color:var(--heading);margin:18px 0 8px;">Design Procedure</h3>
+    <div class="callout blue">
+      <strong>Step 1:</strong> Identify if the desired output requires an inversion. If Y = f (not an inverter), design CMOS for Ȳ = complemented form, then invert.<br><br>
+      <strong>Step 2:</strong> Design PDN (NMOS) for Ȳ: series NMOS for AND terms, parallel for OR terms.<br><br>
+      <strong>Step 3:</strong> Apply conduction complement to get PUN (PMOS): swap series↔parallel.<br><br>
+      <strong>Step 4:</strong> Connect PUN between V<sub>DD</sub> and output; connect PDN between output and GND.<br><br>
+      <strong>Step 5:</strong> If needed, add a CMOS inverter to invert Ȳ and get Y.
+    </div>
+
+    <h3 style="color:var(--heading);margin:18px 0 8px;">Examples</h3>
+    <table>
+      <thead><tr><th>Function</th><th>PDN (NMOS)</th><th>PUN (PMOS)</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>NAND: Y = <span style="text-decoration:overline">AB</span></td>
+          <td>M<sub>A</sub> and M<sub>B</sub> in <strong>series</strong></td>
+          <td>M<sub>A</sub> and M<sub>B</sub> in <strong>parallel</strong></td>
+          <td>Direct CMOS implementation</td>
+        </tr>
+        <tr>
+          <td>NOR: Y = <span style="text-decoration:overline">A+B</span></td>
+          <td>M<sub>A</sub> and M<sub>B</sub> in <strong>parallel</strong></td>
+          <td>M<sub>A</sub> and M<sub>B</sub> in <strong>series</strong></td>
+          <td>Direct CMOS implementation</td>
+        </tr>
+        <tr>
+          <td>Y = (A+B)C</td>
+          <td>Design for Ȳ = <span style="text-decoration:overline">(A+B)C</span>; PDN: (M<sub>A</sub> ∥ M<sub>B</sub>) in series with M<sub>C</sub></td>
+          <td>PUN: (M<sub>A</sub> series M<sub>B</sub>) in parallel with M<sub>C</sub></td>
+          <td>Then add inverter to get Y</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- VTC Diagram Text Representation -->
+  <div class="card">
+    <div class="card-title">Ideal vs. Actual VTC — Key Points Summary</div>
+    <div class="formula-block" style="line-height:1.8;">
+      &nbsp;&nbsp;&nbsp;V<sub>O</sub><br>
+      V<sub>DD</sub> ┤———————┐<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ← Region 1 (flat at V<sub>DD</sub>)<br>
+      V<sub>OPt</sub> ┤&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│  ← Regions 2,3,4 (steep transition)<br>
+      V<sub>ONt</sub> ┤&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;0 ┤&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└——— ← Region 5 (flat at 0)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└─────────┬──┬─────── V<sub>I</sub><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V<sub>TN</sub>&nbsp;V<sub>It</sub>&nbsp;V<sub>DD</sub>−|V<sub>TP</sub>|
+    </div>
+    <p>Actual VTC has a gradual (not vertical) transition. Inflection points at slope = −1 define (V<sub>IL</sub>, V<sub>OH</sub>) and (V<sub>IH</sub>, V<sub>OL</sub>).</p>
+  </div>
+</section>
+
+<!-- ── QUICK REFERENCE ── -->
+<section class="chapter">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:var(--text-dim)">★</div>
+    <div>
+      <h2>Quick Reference — Key Formulas</h2>
+      <div class="ch-sub">Everything you need to derive on the exam</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">BJT Checks</div>
+      <div class="formula-block" style="font-size:12.5px;line-height:1.9;">
+        Saturation: β<sub>forced</sub> = I<sub>C</sub>/I<sub>B</sub> &lt; β<sub>F</sub><br>
+        Active: V<sub>CE</sub> &gt; 0.2 V<br>
+        Cut-off: V<sub>BE</sub> &lt; 0.5 V<br>
+        Rev. Active: V<sub>E</sub>&gt;V<sub>B</sub>&gt;V<sub>C</sub>; I<sub>Ei</sub>=β<sub>R</sub>·I<sub>B</sub>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Noise Margins</div>
+      <div class="formula-block blue" style="font-size:12.5px;line-height:1.9;">
+        V<sub>NH</sub> = V<sub>OH</sub> − V<sub>IH</sub><br>
+        V<sub>NL</sub> = V<sub>IL</sub> − V<sub>OL</sub><br>
+        V<sub>N</sub> = min(V<sub>NH</sub>, V<sub>NL</sub>)
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">MOSFET Modes</div>
+      <div class="formula-block" style="font-size:12.5px;line-height:1.9;">
+        V<sub>OV</sub> = V<sub>GS</sub>−V<sub>TN</sub> (NMOS)<br>
+        Triode: V<sub>DS</sub> &lt; V<sub>OV</sub><br>
+        Sat: V<sub>DS</sub> &gt; V<sub>OV</sub><br>
+        PMOS: V<sub>OV</sub>=V<sub>SG</sub>+V<sub>TP</sub>; V<sub>SD</sub> for comparison
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">CMOS V<sub>It</sub></div>
+      <div class="formula-block" style="font-size:12.5px;line-height:1.9;">
+        V<sub>It</sub> = [√K<sub>P</sub>(V<sub>DD</sub>+V<sub>TP</sub>) + √K<sub>N</sub>·V<sub>TN</sub>]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ (√K<sub>N</sub> + √K<sub>P</sub>)<br>
+        V<sub>OPt</sub> = V<sub>It</sub> − V<sub>TP</sub><br>
+        V<sub>ONt</sub> = V<sub>It</sub> − V<sub>TN</sub>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">DTL Node P Voltage Reference</div>
+    <table>
+      <thead><tr><th>Condition</th><th>V<sub>P</sub></th><th>Q State</th></tr></thead>
+      <tbody>
+        <tr><td>≥1 input LOW (0.2 V)</td><td>0.2 + 0.7 = 0.9 V</td><td>OFF (0.9 &lt; 1.7 required)</td></tr>
+        <tr><td>All inputs HIGH</td><td>0.8 + 0.7 + 0.7 = 2.2 V</td><td>ON (saturation)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">TTL Voltage Ladder (Case 1,1)</div>
+    <table>
+      <thead><tr><th>Node</th><th>Voltage</th><th>Derived From</th></tr></thead>
+      <tbody>
+        <tr><td>V<sub>CE3</sub> = V<sub>Y</sub></td><td>0.2 V</td><td>Q<sub>3</sub> in saturation</td></tr>
+        <tr><td>V<sub>B3</sub> = V<sub>E2</sub></td><td>0.8 V</td><td>V<sub>BE3</sub> = 0.8 V</td></tr>
+        <tr><td>V<sub>B2</sub> = V<sub>C1</sub></td><td>1.6 V</td><td>V<sub>E2</sub> + V<sub>BE2</sub> = 0.8+0.8</td></tr>
+        <tr><td>V<sub>B1</sub></td><td>2.3 V</td><td>V<sub>C1</sub> + V<sub>BC1</sub> = 1.6+0.7</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <strong>General Problem-Solving Protocol:</strong><br>
+    1. Assume operating mode (saturation for BJTs, triode/saturation for MOSFETs).<br>
+    2. Apply the corresponding voltage/current relations.<br>
+    3. Solve for unknowns (often a KCL equation or quadratic).<br>
+    4. <em>Verify</em> the assumption using the checking condition.<br>
+    5. If verification fails, redo with the correct mode.
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 1B — RTL NOR: NOISE MARGIN & FANOUT
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="rtl-nor-extra">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:var(--accent2)">1B</div>
+    <div>
+      <h2>RTL NOR Gate — Noise Margin &amp; Fanout</h2>
+      <div class="ch-sub">Full derivation methodology</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-nm">Noise Margin</span> RTL NOR Gate</div>
+    <p>For a NOR gate driving another NOR gate, the method is identical to the NOT gate. The difference is which transistor (Q<sub>A</sub> or Q<sub>B</sub>) is being analyzed.</p>
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Finding V<sub>IL</sub> (one input; other input = LOW)</h3>
+    <p>Marginal condition: V<sub>BE</sub> = 0.5 V. With I<sub>B</sub> = 0 (boundary of cut-off), apply KCL at the base node:</p>
+    <div class="formula-block">
+      (V<sub>IL</sub> − 0.5) / R<sub>B</sub> = (0.5 − (−V<sub>S</sub>)) / R<sub>1</sub><br><br>
+      V<sub>IL</sub> = 0.5 + R<sub>B</sub> × (0.5 + V<sub>S</sub>) / R<sub>1</sub>
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Finding V<sub>IH</sub> (one input; other input = LOW)</h3>
+    <p>Marginal condition: β<sub>forced</sub> = β<sub>F</sub>. The active transistor is at the boundary of saturation. I<sub>C</sub> is set by V<sub>CC</sub>, R<sub>C</sub>, and V<sub>OL</sub>.</p>
+    <div class="formula-block">
+      I<sub>C</sub> = (V<sub>CC</sub> − V<sub>OL</sub>) / R<sub>C</sub><br>
+      I<sub>B</sub> = I<sub>C</sub> / β<sub>F</sub><br><br>
+      KCL at base: I<sub>B</sub> = (V<sub>IH</sub> − 0.8)/R<sub>B</sub> − (0.8 − (−V<sub>S</sub>))/R<sub>1</sub><br><br>
+      Solve for V<sub>IH</sub>: V<sub>IH</sub> = 0.8 + R<sub>B</sub> × [I<sub>B</sub> + (0.8+V<sub>S</sub>)/R<sub>1</sub>]
+    </div>
+
+    <div class="callout green">
+      <strong>For case (1,1) with both inputs HIGH:</strong> Both BJTs in saturation. If the driven input switches to LOW, only that BJT cuts off; the other keeps output LOW. So V<sub>IH</sub> found for the single-active-transistor case applies, and the NOR gate is NOT more sensitive to noise in this configuration.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-fan">Fanout</span> RTL NOR Gate</div>
+    <p>Same principle as NOT gate fanout, but the driver NOR gate has <em>two</em> BJTs in parallel sharing R<sub>C</sub>.</p>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Driver output HIGH → all BJTs cut-off</h3>
+    <div class="formula-block">
+      Each load NOR input draws: I<sub>in,load</sub> = (V<sub>OH</sub> − 0.8) / R<sub>B,load</sub> per active load transistor<br>
+      Available current from driver: I<sub>available</sub> = (V<sub>CC</sub> − V<sub>OH</sub>) / R<sub>C,driver</sub><br>
+      N<sub>max</sub> = floor(I<sub>available</sub> / I<sub>in,load</sub>)
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Driver output LOW → parallel BJTs in saturation</h3>
+    <p>Load gates feed current into the output node (driver's collectors). Marginal condition: β<sub>forced</sub> = β<sub>F</sub> for each driver BJT.</p>
+    <div class="formula-block">
+      I<sub>C,total</sub> = I<sub>C,driver,alone</sub> + N × I<sub>load</sub><br>
+      where I<sub>C,driver,alone</sub> = (V<sub>CC</sub> − V<sub>OL</sub>) / R<sub>C</sub><br>
+      and I<sub>B,each</sub> = computed from individual base drive<br><br>
+      Condition: I<sub>C,total</sub> / I<sub>B,each</sub> = β<sub>F</sub>; solve for N
+    </div>
+    <p><strong>Overall max fanout</strong> = min of all cases above.</p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 4B — NMOS WITH ENHANCEMENT & DEPLETION LOADS (FULL)
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="nmos-loads">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:#9f6af0">4B</div>
+    <div>
+      <h2>NMOS Logic — Enhancement &amp; Depletion Loads (Complete)</h2>
+      <div class="ch-sub">NOT Gate &amp; NOR Gate · All Three Load Types · Full Analysis</div>
+    </div>
+  </div>
+
+  <!-- ── Enhancement NOT ── -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Enhancement Load</span> NMOS NOT Gate — Full Analysis</div>
+    <p>Load: M<sub>L</sub> (enhancement, gate shorted to drain). Driver: M<sub>D</sub> (enhancement). Gate of M<sub>L</sub> = V<sub>DD</sub> (drain of M<sub>L</sub>). Source of M<sub>L</sub> = V<sub>Y</sub> (output).</p>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Load M<sub>L</sub> — Always in Saturation</h3>
+    <div class="formula-block">
+      V<sub>GS,L</sub> = V<sub>DD</sub> − V<sub>Y</sub><br>
+      V<sub>DS,L</sub> = V<sub>DD</sub> − V<sub>Y</sub> = V<sub>GS,L</sub> → V<sub>DS,L</sub> = V<sub>GS,L</sub> ≥ V<sub>OV,L</sub> always → Saturation<br><br>
+      I<sub>DL</sub> = K<sub>nL</sub>(V<sub>GS,L</sub> − V<sub>TN,L</sub>)² = K<sub>nL</sub>(V<sub>DD</sub> − V<sub>Y</sub> − V<sub>TN,L</sub>)²
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Case (0): V<sub>A</sub> = 0 V → M<sub>D</sub> cut-off</h3>
+    <div class="formula-block">
+      I<sub>DD</sub> = 0 → I<sub>DL</sub> = 0<br>
+      K<sub>nL</sub>(V<sub>DD</sub> − V<sub>Y</sub> − V<sub>TN,L</sub>)² = 0<br>
+      ∴ V<sub>Y</sub> = V<sub>OH</sub> = V<sub>DD</sub> − V<sub>TN,L</sub>
+    </div>
+    <div class="callout">
+      <strong>Note:</strong> V<sub>OH</sub> = V<sub>DD</sub> − V<sub>TN,L</sub> &lt; V<sub>DD</sub> for enhancement load. This is a disadvantage compared to resistive or depletion loads.
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Case (1): V<sub>A</sub> = V<sub>DD</sub> → M<sub>D</sub> in triode (designed)</h3>
+    <div class="formula-block">
+      Set I<sub>DL</sub> = I<sub>DD</sub>:<br><br>
+      K<sub>nL</sub>(V<sub>DD</sub> − V<sub>Y</sub> − V<sub>TN,L</sub>)² = K<sub>nD</sub>[2(V<sub>DD</sub> − V<sub>TN,D</sub>)V<sub>Y</sub> − V<sub>Y</sub>²]
+    </div>
+    <p>Rearrange into a quadratic in V<sub>Y</sub>. Let α = K<sub>nL</sub>/K<sub>nD</sub>:</p>
+    <div class="formula-block">
+      (1+α)V<sub>Y</sub>² − [2(V<sub>DD</sub>−V<sub>TN,D</sub>) + 2α(V<sub>DD</sub>−V<sub>TN,L</sub>)]V<sub>Y</sub> + α(V<sub>DD</sub>−V<sub>TN,L</sub>)² = 0<br><br>
+      Solve using quadratic formula; take the smaller root (V<sub>OL</sub>).
+    </div>
+    <p><strong>Verification:</strong> Confirm V<sub>Y</sub> &lt; V<sub>OV,D</sub> = V<sub>DD</sub> − V<sub>TN,D</sub> (M<sub>D</sub> in triode ✓).</p>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Power Dissipation — Enhancement Load NOT Gate</h3>
+    <div class="formula-block orange">
+      P<sub>(0)</sub> = V<sub>DD</sub> × I<sub>DL</sub>(V<sub>Y</sub>=V<sub>OH</sub>) = 0 &nbsp;&nbsp;[I<sub>DL</sub>=0 when V<sub>Y</sub>=V<sub>OH</sub>]<br><br>
+      P<sub>(1)</sub> = V<sub>DD</sub> × I<sub>D</sub> &nbsp;&nbsp;[I<sub>D</sub> = I<sub>DL</sub> = I<sub>DD</sub>; use either formula to find I<sub>D</sub>]<br><br>
+      P<sub>avg</sub> = (0 + P<sub>(1)</sub>) / 2 = P<sub>(1)</sub> / 2
+    </div>
+  </div>
+
+  <!-- ── Depletion NOT ── -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Depletion Load</span> NMOS NOT Gate — Full Analysis</div>
+    <p>Load: M<sub>L</sub> (depletion, gate shorted to source → V<sub>GS,L</sub> = 0, V<sub>TN,L</sub> &lt; 0). Driver: M<sub>D</sub> (enhancement).</p>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Load M<sub>L</sub> operating mode check</h3>
+    <div class="formula-block">
+      V<sub>OV,L</sub> = V<sub>GS,L</sub> − V<sub>TN,L</sub> = 0 − V<sub>TN,L</sub> = |V<sub>TN,L</sub>| (positive)<br><br>
+      If V<sub>DS,L</sub> = V<sub>DD</sub> − V<sub>Y</sub> &gt; |V<sub>TN,L</sub>| → Saturation → I<sub>DL</sub> = K<sub>nL</sub>(0 − V<sub>TN,L</sub>)² = K<sub>nL</sub>·V<sub>TN,L</sub>² (constant)<br>
+      If V<sub>DS,L</sub> &lt; |V<sub>TN,L</sub>| → Triode
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Case (0): V<sub>A</sub> = 0 → M<sub>D</sub> cut-off</h3>
+    <div class="formula-block">
+      I<sub>DD</sub> = 0 → I<sub>DL</sub> = 0<br>
+      If M<sub>L</sub> in triode: I<sub>DL</sub> = K<sub>nL</sub>[2(0−V<sub>TN,L</sub>)(V<sub>DD</sub>−V<sub>Y</sub>) − (V<sub>DD</sub>−V<sub>Y</sub>)²] = 0<br>
+      ∴ V<sub>DD</sub> − V<sub>Y</sub> = 0 → V<sub>Y</sub> = V<sub>OH</sub> = V<sub>DD</sub>
+    </div>
+    <div class="callout green">
+      <strong>Key advantage:</strong> Depletion load achieves V<sub>OH</sub> = V<sub>DD</sub> (full rail), unlike enhancement load which loses V<sub>TN,L</sub>.
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Case (1): V<sub>A</sub> = V<sub>DD</sub> → M<sub>D</sub> in triode; M<sub>L</sub> in saturation</h3>
+    <div class="formula-block">
+      I<sub>DL</sub> = K<sub>nL</sub> × V<sub>TN,L</sub>² &nbsp;&nbsp;(constant; V<sub>DS,L</sub> large → saturation)<br><br>
+      Set equal to I<sub>DD</sub> (M<sub>D</sub> in triode):<br>
+      K<sub>nL</sub>·V<sub>TN,L</sub>² = K<sub>nD</sub>[2(V<sub>DD</sub>−V<sub>TN,D</sub>)V<sub>Y</sub> − V<sub>Y</sub>²]<br><br>
+      Solve quadratic for V<sub>Y</sub> = V<sub>OL</sub>.
+    </div>
+    <p>This gives a very small V<sub>OL</sub> because the constant current K<sub>nL</sub>·V<sub>TN,L</sub>² is small relative to M<sub>D</sub>'s drive strength — one reason depletion-load NMOS is preferred over resistive load.</p>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Power Dissipation — Depletion Load NOT Gate</h3>
+    <div class="formula-block orange">
+      P<sub>(0)</sub> = 0 &nbsp;&nbsp;[No current flows; I<sub>DL</sub>=0 when M<sub>D</sub> is off and M<sub>L</sub> forced to triode]<br><br>
+      P<sub>(1)</sub> = V<sub>DD</sub> × I<sub>DL</sub> = V<sub>DD</sub> × K<sub>nL</sub> × V<sub>TN,L</sub>²<br><br>
+      P<sub>avg</sub> = P<sub>(1)</sub> / 2
+    </div>
+  </div>
+
+  <!-- ── NOR Gates with all loads ── -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> NMOS NOR Gate — Enhancement Type Load</div>
+    <p>Two driver transistors M<sub>DA</sub>, M<sub>DB</sub> in parallel. Load M<sub>L</sub> (enhancement, gate=drain shorted) between V<sub>DD</sub> and output V<sub>Y</sub>. Same load analysis as NOT gate applies.</p>
+
+    <table>
+      <thead><tr><th>Case</th><th>M<sub>DA</sub></th><th>M<sub>DB</sub></th><th>KCL (set I<sub>DL</sub> = I<sub>DA</sub>+I<sub>DB</sub>)</th><th>V<sub>Y</sub></th></tr></thead>
+      <tbody>
+        <tr>
+          <td>(0,0)</td>
+          <td>Cut-off</td>
+          <td>Cut-off</td>
+          <td>I<sub>DL</sub> = 0 → V<sub>Y</sub> = V<sub>DD</sub> − V<sub>TN,L</sub></td>
+          <td><strong>V<sub>DD</sub> − V<sub>TN,L</sub></strong></td>
+        </tr>
+        <tr>
+          <td>(1,0) or (0,1)</td>
+          <td>Triode/Cut-off</td>
+          <td>Cut-off/Triode</td>
+          <td>K<sub>nL</sub>(V<sub>DD</sub>−V<sub>Y</sub>−V<sub>TN,L</sub>)² = K<sub>nD</sub>[2V<sub>OV,D</sub>·V<sub>Y</sub>−V<sub>Y</sub>²]</td>
+          <td>Low (solve quadratic)</td>
+        </tr>
+        <tr>
+          <td>(1,1)</td>
+          <td>Triode</td>
+          <td>Triode</td>
+          <td>K<sub>nL</sub>(V<sub>DD</sub>−V<sub>Y</sub>−V<sub>TN,L</sub>)² = 2K<sub>nD</sub>[2V<sub>OV,D</sub>·V<sub>Y</sub>−V<sub>Y</sub>²]</td>
+          <td>Even lower (factor of 2 on right side)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="formula-block orange">
+      P<sub>(0,0)</sub> = 0<br>
+      P<sub>(1,0)</sub> = P<sub>(0,1)</sub> = V<sub>DD</sub> × I<sub>D,single</sub><br>
+      P<sub>(1,1)</sub> = V<sub>DD</sub> × (I<sub>DA</sub> + I<sub>DB</sub>) = V<sub>DD</sub> × 2·I<sub>D,single</sub> &nbsp;[symmetric]<br>
+      P<sub>avg</sub> = (P<sub>(0,0)</sub> + P<sub>(1,0)</sub> + P<sub>(0,1)</sub> + P<sub>(1,1)</sub>) / 4
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> NMOS NOR Gate — Depletion Type Load</div>
+    <p>Two driver transistors M<sub>DA</sub>, M<sub>DB</sub> in parallel. Load M<sub>L</sub> (depletion, V<sub>GS,L</sub> = 0) between V<sub>DD</sub> and V<sub>Y</sub>.</p>
+
+    <table>
+      <thead><tr><th>Case</th><th>M<sub>L</sub> Mode</th><th>KCL Equation</th><th>V<sub>Y</sub></th></tr></thead>
+      <tbody>
+        <tr>
+          <td>(0,0)</td>
+          <td>Triode</td>
+          <td>I<sub>DL</sub> = 0 → V<sub>Y</sub> = V<sub>DD</sub></td>
+          <td><strong>V<sub>DD</sub></strong> (full rail ✓)</td>
+        </tr>
+        <tr>
+          <td>(1,0) or (0,1)</td>
+          <td>Saturation</td>
+          <td>K<sub>nL</sub>·V<sub>TN,L</sub>² = K<sub>nD</sub>[2V<sub>OV,D</sub>·V<sub>Y</sub>−V<sub>Y</sub>²]</td>
+          <td>Low (solve quadratic)</td>
+        </tr>
+        <tr>
+          <td>(1,1)</td>
+          <td>Saturation</td>
+          <td>K<sub>nL</sub>·V<sub>TN,L</sub>² = 2K<sub>nD</sub>[2V<sub>OV,D</sub>·V<sub>Y</sub>−V<sub>Y</sub>²]</td>
+          <td>Even lower (additional driver halves V<sub>Y</sub> further)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="formula-block orange">
+      P<sub>(0,0)</sub> = 0<br>
+      P<sub>(1,0)</sub> = V<sub>DD</sub> × K<sub>nL</sub>·V<sub>TN,L</sub>²<br>
+      P<sub>(1,1)</sub> = V<sub>DD</sub> × K<sub>nL</sub>·V<sub>TN,L</sub>² &nbsp;[same I<sub>DL</sub>; load is in saturation → constant current]<br>
+      P<sub>avg</sub> = (0 + P + P + P) / 4 = (3/4) × V<sub>DD</sub> × K<sub>nL</sub>·V<sub>TN,L</sub>²
+    </div>
+
+    <div class="callout green">
+      <strong>Comparison of three NMOS load types:</strong>
+      <table style="margin-top:10px;">
+        <thead><tr><th>Property</th><th>Resistive</th><th>Enhancement</th><th>Depletion</th></tr></thead>
+        <tbody>
+          <tr><td>V<sub>OH</sub></td><td>V<sub>DD</sub></td><td>V<sub>DD</sub> − V<sub>TN,L</sub></td><td>V<sub>DD</sub> ✓ (best)</td></tr>
+          <tr><td>V<sub>OL</sub></td><td>Low</td><td>Low</td><td>Very low ✓ (best)</td></tr>
+          <tr><td>Static power in Case(0)</td><td>Non-zero</td><td>~0 ✓</td><td>~0 ✓</td></tr>
+          <tr><td>Static power in Case(1)</td><td>V<sub>DD</sub>²/R</td><td>K<sub>nL</sub>·V<sub>OV,D</sub>²·V<sub>DD</sub></td><td>K<sub>nL</sub>·V<sub>TN,L</sub>²·V<sub>DD</sub></td></tr>
+          <tr><td>VLSI compatibility</td><td>Poor (large R)</td><td>Moderate</td><td>Best ✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">Operation</span> NMOS NOR Gate — Resistive Load (Complete Case Analysis)</div>
+    <p>All four cases with full equations:</p>
+    <table>
+      <thead><tr><th>Case</th><th>Active Drivers</th><th>KCL</th><th>V<sub>Y</sub></th></tr></thead>
+      <tbody>
+        <tr>
+          <td>(0,0)</td>
+          <td>Both cut-off</td>
+          <td>I<sub>RD</sub> = 0</td>
+          <td>V<sub>DD</sub></td>
+        </tr>
+        <tr>
+          <td>(0,1) or (1,0)</td>
+          <td>One triode</td>
+          <td>K<sub>nD</sub>[2V<sub>OV,D</sub>·V<sub>Y</sub>−V<sub>Y</sub>²] = (V<sub>DD</sub>−V<sub>Y</sub>)/R<sub>D</sub></td>
+          <td>Solve quadratic → V<sub>OL,1</sub></td>
+        </tr>
+        <tr>
+          <td>(1,1)</td>
+          <td>Both triode</td>
+          <td>2K<sub>nD</sub>[2V<sub>OV,D</sub>·V<sub>Y</sub>−V<sub>Y</sub>²] = (V<sub>DD</sub>−V<sub>Y</sub>)/R<sub>D</sub></td>
+          <td>Solve quadratic → V<sub>OL,2</sub> &lt; V<sub>OL,1</sub></td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>V<sub>OL</sub> (worst case low output)</strong> = V<sub>OL,1</sub> (the single-driver case gives higher V<sub>OL</sub> — harder to drive low with only one driver).</p>
+    <div class="formula-block orange">
+      P<sub>(0,0)</sub> = 0<br>
+      P<sub>(0,1)</sub> = P<sub>(1,0)</sub> = V<sub>DD</sub> × (V<sub>DD</sub>−V<sub>OL,1</sub>) / R<sub>D</sub><br>
+      P<sub>(1,1)</sub> = V<sub>DD</sub> × (V<sub>DD</sub>−V<sub>OL,2</sub>) / R<sub>D</sub><br>
+      P<sub>avg</sub> = (0 + P<sub>(0,1)</sub> + P<sub>(1,0)</sub> + P<sub>(1,1)</sub>) / 4
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION 5B — CMOS NOISE MARGIN: FULL DERIVATION
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="cmos-nm">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:linear-gradient(135deg,var(--accent),var(--accent3))">5B</div>
+    <div>
+      <h2>CMOS Noise Margin — Complete Derivation</h2>
+      <div class="ch-sub">Step-by-step differentiation to find V<sub>IL</sub>, V<sub>OH</sub>, V<sub>IH</sub>, V<sub>OL</sub></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Setup: CMOS Inverter Current Balance</div>
+    <p>At any operating point, I<sub>DN</sub> = I<sub>DP</sub> (no gate current in MOSFETs; KCL at output node).</p>
+    <div class="formula-block">
+      NMOS: V<sub>GS,N</sub> = V<sub>I</sub>, V<sub>DS,N</sub> = V<sub>O</sub><br>
+      PMOS: V<sub>SG,P</sub> = V<sub>DD</sub>−V<sub>I</sub>, V<sub>SD,P</sub> = V<sub>DD</sub>−V<sub>O</sub>
+    </div>
+  </div>
+
+  <!-- Region 2 equation -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-nm">Region 2</span> M<sub>N</sub> Saturation, M<sub>P</sub> Triode → Find V<sub>IL</sub> and V<sub>OH</sub></div>
+
+    <h3 style="color:var(--heading);margin:8px 0 8px;">Step 1 — Write current equations</h3>
+    <div class="formula-block">
+      M<sub>N</sub> (Saturation): I<sub>DN</sub> = K<sub>N</sub>(V<sub>I</sub> − V<sub>TN</sub>)²<br><br>
+      M<sub>P</sub> (Triode): I<sub>DP</sub> = K<sub>P</sub>[2(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)(V<sub>DD</sub>−V<sub>O</sub>) − (V<sub>DD</sub>−V<sub>O</sub>)²]<br><br>
+      Set I<sub>DN</sub> = I<sub>DP</sub> … (*)
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Step 2 — Differentiate (*) with respect to V<sub>I</sub></h3>
+    <p>Left side: d/dV<sub>I</sub>[K<sub>N</sub>(V<sub>I</sub>−V<sub>TN</sub>)²] = 2K<sub>N</sub>(V<sub>I</sub>−V<sub>TN</sub>)</p>
+    <p>Right side (apply chain rule, V<sub>O</sub> is a function of V<sub>I</sub>):</p>
+    <div class="formula-block blue">
+      d/dV<sub>I</sub>[K<sub>P</sub>(2(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)(V<sub>DD</sub>−V<sub>O</sub>) − (V<sub>DD</sub>−V<sub>O</sub>)²)]<br><br>
+      = K<sub>P</sub>[−2(V<sub>DD</sub>−V<sub>O</sub>) + 2(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)(−dV<sub>O</sub>/dV<sub>I</sub>) − 2(V<sub>DD</sub>−V<sub>O</sub>)(−dV<sub>O</sub>/dV<sub>I</sub>)]<br><br>
+      = K<sub>P</sub>[−2(V<sub>DD</sub>−V<sub>O</sub>) + 2(dV<sub>O</sub>/dV<sub>I</sub>)(V<sub>O</sub> − V<sub>DD</sub> − (V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>))]<br><br>
+      Let m = dV<sub>O</sub>/dV<sub>I</sub>
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Step 3 — Set m = dV<sub>O</sub>/dV<sub>I</sub> = −1 (inflection point condition)</h3>
+    <div class="formula-block">
+      2K<sub>N</sub>(V<sub>I</sub>−V<sub>TN</sub>) = K<sub>P</sub>[−2(V<sub>DD</sub>−V<sub>O</sub>) + 2(−1)(V<sub>O</sub>−V<sub>DD</sub>−(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>))]<br><br>
+      2K<sub>N</sub>(V<sub>I</sub>−V<sub>TN</sub>) = K<sub>P</sub>[−2(V<sub>DD</sub>−V<sub>O</sub>) − 2V<sub>O</sub> + 2V<sub>DD</sub> + 2(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)]<br><br>
+      2K<sub>N</sub>(V<sub>I</sub>−V<sub>TN</sub>) = 2K<sub>P</sub>(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)
+    </div>
+    <p>This gives the relationship between V<sub>I</sub> = V<sub>IL</sub> and V<sub>O</sub> = V<sub>OH</sub>:</p>
+    <div class="formula-block" style="background:rgba(74,154,240,0.08);border-left-color:var(--accent3);">
+      <strong>At slope = −1 (Region 2 inflection):</strong><br><br>
+      K<sub>N</sub>(V<sub>IL</sub> − V<sub>TN</sub>) = K<sub>P</sub>(V<sub>DD</sub> − V<sub>IL</sub> + V<sub>TP</sub>)<br><br>
+      ∴ V<sub>IL</sub> = [K<sub>N</sub>·V<sub>TN</sub> − K<sub>P</sub>(V<sub>DD</sub>+V<sub>TP</sub>)] / [−(K<sub>N</sub>+K<sub>P</sub>)]<br><br>
+      <strong>For symmetric case (K<sub>N</sub>=K<sub>P</sub>=K, V<sub>TN</sub>=|V<sub>TP</sub>|=V<sub>T</sub>):</strong><br>
+      V<sub>IL</sub> = V<sub>DD</sub>/2 − V<sub>T</sub>/2 + V<sub>T</sub>/2 → substitute into (*) to get V<sub>OH</sub>
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Step 4 — Find V<sub>OH</sub> by substituting V<sub>IL</sub> back into (*)</h3>
+    <div class="formula-block">
+      K<sub>N</sub>(V<sub>IL</sub>−V<sub>TN</sub>)² = K<sub>P</sub>[2(V<sub>DD</sub>−V<sub>IL</sub>+V<sub>TP</sub>)(V<sub>DD</sub>−V<sub>OH</sub>) − (V<sub>DD</sub>−V<sub>OH</sub>)²]<br><br>
+      Let: a = K<sub>N</sub>(V<sub>IL</sub>−V<sub>TN</sub>)² / K<sub>P</sub> &nbsp;(known, since V<sub>IL</sub> found above)<br>
+      Let: x = V<sub>DD</sub> − V<sub>OH</sub>, b = V<sub>DD</sub>−V<sub>IL</sub>+V<sub>TP</sub><br>
+      Then: a = 2bx − x² → x² − 2bx + a = 0<br>
+      Solve: x = b − √(b²−a) &nbsp;(take smaller root since V<sub>OH</sub> is large → x is small)<br>
+      V<sub>OH</sub> = V<sub>DD</sub> − x
+    </div>
+  </div>
+
+  <!-- Region 4 equation -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-nm">Region 4</span> M<sub>N</sub> Triode, M<sub>P</sub> Saturation → Find V<sub>IH</sub> and V<sub>OL</sub></div>
+
+    <h3 style="color:var(--heading);margin:8px 0 8px;">Step 1 — Write current equations</h3>
+    <div class="formula-block">
+      M<sub>N</sub> (Triode): I<sub>DN</sub> = K<sub>N</sub>[2(V<sub>I</sub>−V<sub>TN</sub>)V<sub>O</sub> − V<sub>O</sub>²]<br><br>
+      M<sub>P</sub> (Saturation): I<sub>DP</sub> = K<sub>P</sub>(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)²<br><br>
+      Set I<sub>DN</sub> = I<sub>DP</sub> … (**)
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Step 2 — Differentiate (**) with respect to V<sub>I</sub></h3>
+    <div class="formula-block blue">
+      d/dV<sub>I</sub>[K<sub>N</sub>(2(V<sub>I</sub>−V<sub>TN</sub>)V<sub>O</sub>−V<sub>O</sub>²)] = d/dV<sub>I</sub>[K<sub>P</sub>(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)²]<br><br>
+      K<sub>N</sub>[2V<sub>O</sub> + 2(V<sub>I</sub>−V<sub>TN</sub>)m − 2V<sub>O</sub>·m] = K<sub>P</sub>·2(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)(−1)<br><br>
+      where m = dV<sub>O</sub>/dV<sub>I</sub>
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Step 3 — Set m = −1</h3>
+    <div class="formula-block">
+      K<sub>N</sub>[2V<sub>O</sub> + 2(V<sub>I</sub>−V<sub>TN</sub>)(−1) − 2V<sub>O</sub>(−1)] = −2K<sub>P</sub>(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)<br><br>
+      K<sub>N</sub>[2V<sub>O</sub> − 2(V<sub>I</sub>−V<sub>TN</sub>) + 2V<sub>O</sub>] = −2K<sub>P</sub>(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)<br><br>
+      K<sub>N</sub>[4V<sub>O</sub> − 2(V<sub>I</sub>−V<sub>TN</sub>)] = −2K<sub>P</sub>(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)
+    </div>
+    <div class="formula-block" style="background:rgba(74,154,240,0.08);border-left-color:var(--accent3);">
+      <strong>At slope = −1 (Region 4 inflection):</strong><br><br>
+      2K<sub>N</sub>(V<sub>IH</sub>−V<sub>TN</sub>−2V<sub>OL</sub>) = K<sub>P</sub>(V<sub>DD</sub>−V<sub>IH</sub>+V<sub>TP</sub>)<br><br>
+      <strong>Symmetric case (K<sub>N</sub>=K<sub>P</sub>=K):</strong><br>
+      2K(V<sub>IH</sub>−V<sub>TN</sub>−2V<sub>OL</sub>) = K(V<sub>DD</sub>−V<sub>IH</sub>+V<sub>TP</sub>)<br>
+      This relates V<sub>IH</sub> and V<sub>OL</sub>; substitute back into (**) for the second equation to solve both.
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Step 4 — Find V<sub>OL</sub> by substituting V<sub>IH</sub> back into (**)</h3>
+    <div class="formula-block">
+      K<sub>N</sub>[2(V<sub>IH</sub>−V<sub>TN</sub>)V<sub>OL</sub> − V<sub>OL</sub>²] = K<sub>P</sub>(V<sub>DD</sub>−V<sub>IH</sub>+V<sub>TP</sub>)²<br><br>
+      Let: c = K<sub>P</sub>(V<sub>DD</sub>−V<sub>IH</sub>+V<sub>TP</sub>)² / K<sub>N</sub> &nbsp;(known)<br>
+      d = V<sub>IH</sub> − V<sub>TN</sub><br>
+      Then: 2d·V<sub>OL</sub> − V<sub>OL</sub>² = c → V<sub>OL</sub>² − 2d·V<sub>OL</sub> + c = 0<br>
+      Solve: V<sub>OL</sub> = d − √(d²−c) &nbsp;(take smaller root)
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-nm">Summary</span> Symmetric Case Results (K<sub>N</sub>=K<sub>P</sub>, |V<sub>TP</sub>|=V<sub>TN</sub>=V<sub>T</sub>)</div>
+    <div class="formula-block" style="line-height:2.1;font-size:13px;">
+      V<sub>It</sub> = V<sub>DD</sub>/2<br>
+      V<sub>IL</sub> = (3V<sub>DD</sub>/8) + V<sub>T</sub>/4 &nbsp;&nbsp;[exact value depends on K and V<sub>T</sub>; derive per above]<br>
+      V<sub>IH</sub> = V<sub>DD</sub> − V<sub>IL</sub> &nbsp;&nbsp;[by symmetry]<br>
+      V<sub>OH</sub> = V<sub>DD</sub> − V<sub>OL</sub> &nbsp;&nbsp;[by symmetry]<br>
+      NM<sub>H</sub> = NM<sub>L</sub><br>
+      NM = V<sub>OH</sub> − V<sub>IH</sub> = V<sub>IL</sub> − V<sub>OL</sub>
+    </div>
+
+    <div class="callout blue" style="margin-top:14px;">
+      <strong>General approach for any CMOS problem:</strong><br>
+      1. Identify which region (2 or 4) you are solving for.<br>
+      2. Write the I<sub>DN</sub>=I<sub>DP</sub> equation with appropriate mode formulas.<br>
+      3. Differentiate both sides with respect to V<sub>I</sub>.<br>
+      4. Substitute dV<sub>O</sub>/dV<sub>I</sub> = −1; solve for V<sub>I</sub> (= V<sub>IL</sub> or V<sub>IH</sub>).<br>
+      5. Substitute back into original equation; solve for V<sub>O</sub> (= V<sub>OH</sub> or V<sub>OL</sub>).<br>
+      6. Compute NM<sub>H</sub> = V<sub>OH</sub> − V<sub>IH</sub> and NM<sub>L</sub> = V<sub>IL</sub> − V<sub>OL</sub>.
+    </div>
+  </div>
+
+  <!-- CMOS VTC Regions 2 and 4 equations -->
+  <div class="card">
+    <div class="card-title"><span class="topic t-op">VTC</span> CMOS Regions 2 &amp; 4 — Solving for V<sub>O</sub> at any V<sub>I</sub></div>
+    <h3 style="color:var(--heading);margin:8px 0 8px;">Region 2 (V<sub>TN</sub> &lt; V<sub>I</sub> &lt; V<sub>It</sub>): M<sub>N</sub> Sat, M<sub>P</sub> Triode</h3>
+    <div class="formula-block">
+      I<sub>DN</sub> = I<sub>DP</sub>:<br>
+      K<sub>N</sub>(V<sub>I</sub>−V<sub>TN</sub>)² = K<sub>P</sub>[2(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)(V<sub>DD</sub>−V<sub>O</sub>) − (V<sub>DD</sub>−V<sub>O</sub>)²]<br><br>
+      Let x = V<sub>DD</sub> − V<sub>O</sub>, A = V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>:<br>
+      K<sub>N</sub>(V<sub>I</sub>−V<sub>TN</sub>)² / K<sub>P</sub> = 2Ax − x²<br>
+      x² − 2Ax + [K<sub>N</sub>(V<sub>I</sub>−V<sub>TN</sub>)²/K<sub>P</sub>] = 0<br>
+      Solve for x → V<sub>O</sub> = V<sub>DD</sub> − x (take smaller x → larger V<sub>O</sub> since still HIGH)
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Region 4 (V<sub>It</sub> &lt; V<sub>I</sub> &lt; V<sub>DD</sub>−|V<sub>TP</sub>|): M<sub>N</sub> Triode, M<sub>P</sub> Sat</h3>
+    <div class="formula-block">
+      K<sub>N</sub>[2(V<sub>I</sub>−V<sub>TN</sub>)V<sub>O</sub> − V<sub>O</sub>²] = K<sub>P</sub>(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)²<br><br>
+      Let B = V<sub>I</sub>−V<sub>TN</sub>, C = K<sub>P</sub>(V<sub>DD</sub>−V<sub>I</sub>+V<sub>TP</sub>)²/K<sub>N</sub>:<br>
+      2B·V<sub>O</sub> − V<sub>O</sub>² = C<br>
+      V<sub>O</sub>² − 2B·V<sub>O</sub> + C = 0<br>
+      Solve for V<sub>O</sub> (take smaller root → V<sub>O</sub> is LOW in this region)
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION — DTL NOISE MARGIN
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="dtl-nm">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:var(--accent3)">2B</div>
+    <div>
+      <h2>DTL NAND Gate — Noise Margin</h2>
+      <div class="ch-sub">Threshold voltages for the DTL family</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="topic t-nm">Noise Margin</span> DTL NAND Gate</div>
+    <p>The diodes D<sub>1</sub>, D<sub>2</sub> shift the threshold significantly compared to RTL.</p>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Finding V<sub>IL</sub> — Marginal cut-off condition</h3>
+    <p>BJT is at the boundary of cut-off: V<sub>BE</sub> = 0.5 V. This means V<sub>B</sub> = 0.5 V (base of Q). Then V<sub>P</sub> = V<sub>B</sub> + V<sub>D2</sub> + V<sub>D1</sub> = 0.5 + 0.7 + 0.7 = 1.9 V (marginal conduction through D<sub>1</sub>, D<sub>2</sub>). But for the input diode D<sub>A</sub> to be still on (keeping V<sub>P</sub> clamped to V<sub>IL</sub> + 0.7):</p>
+    <div class="formula-block blue">
+      V<sub>P</sub> = V<sub>IL</sub> + 0.7 V &nbsp;&nbsp;(input diode D<sub>A</sub> still conducting)<br><br>
+      Marginal condition: V<sub>P</sub> = 0.5 + 0.7 + 0.7 = 1.9 V<br>
+      ∴ V<sub>IL</sub> = 1.9 − 0.7 = 1.2 V
+    </div>
+
+    <h3 style="color:var(--heading);margin:12px 0 8px;">Finding V<sub>IH</sub> — Marginal saturation condition</h3>
+    <p>BJT at boundary between active and saturation: β<sub>forced</sub> = β<sub>F</sub>. As input rises, input diode D<sub>A</sub> becomes reverse biased when V<sub>IH</sub> &gt; V<sub>P</sub> − 0.7 = 2.2 − 0.7 = 1.5 V. Once reverse biased, V<sub>IH</sub> can be computed using the base current equation:</p>
+    <div class="formula-block blue">
+      For V<sub>A</sub> ≥ 1.5 V: input diode D<sub>A</sub> is reverse biased; V<sub>P</sub> set by V<sub>CC</sub>, R<sub>1</sub>, and base drive.<br><br>
+      I<sub>C</sub> = (V<sub>CC</sub> − V<sub>OL</sub>) / R<sub>C</sub> &nbsp;&nbsp;(output low = BJT in saturation)<br>
+      I<sub>B</sub> = I<sub>C</sub> / β<sub>F</sub> &nbsp;&nbsp;(marginal condition)<br><br>
+      KCL at node P: I<sub>R1</sub> = I<sub>D1</sub> = I<sub>D2</sub>+I<sub>B</sub>+I<sub>R2</sub><br>
+      Using V<sub>P</sub> = 2.2 V (all junctions in normal conduction):<br>
+      I<sub>R1</sub> = (V<sub>CC</sub> − 2.2)/R<sub>1</sub><br>
+      I<sub>R2</sub> = (0.8 − (−V<sub>S</sub>))/R<sub>2</sub><br>
+      I<sub>B</sub> = I<sub>R1</sub> − I<sub>R2</sub><br><br>
+      At marginal condition: set computed I<sub>B</sub> = I<sub>C</sub>/β<sub>F</sub> → this gives V<sub>IH</sub> implicitly. Since V<sub>A</sub>=V<sub>IH</sub> does not appear directly when D<sub>A</sub> is reverse biased, V<sub>IH</sub> is effectively the voltage at which D<sub>A</sub> just becomes reverse biased ≈ V<sub>P</sub> − 0.7 = 1.5 V.
+    </div>
+
+    <div class="formula-block" style="margin-top:14px;">
+      NM<sub>L</sub> = V<sub>IL</sub> − V<sub>OL</sub> = 1.2 − 0.2 = 1.0 V &nbsp;&nbsp;(typical)<br>
+      NM<sub>H</sub> = V<sub>OH</sub> − V<sub>IH</sub> = 5.0 − 1.5 = 3.5 V &nbsp;&nbsp;(typical, V<sub>CC</sub>=5V)<br><br>
+      DTL has <strong>excellent</strong> noise margins (much better than RTL) due to diode voltage threshold.
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION — COMPLETE COMPARISON TABLE
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" id="comparison">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:var(--text-dim)">CMP</div>
+    <div>
+      <h2>Technology Comparison — All Logic Families</h2>
+      <div class="ch-sub">At a glance: operating parameters across RTL, DTL, TTL, NMOS, CMOS</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Comparison Table</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>RTL</th>
+          <th>DTL</th>
+          <th>TTL</th>
+          <th>NMOS (Dep. Load)</th>
+          <th>CMOS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Output HIGH (V<sub>OH</sub>)</td>
+          <td>V<sub>CC</sub></td>
+          <td>V<sub>CC</sub></td>
+          <td>V<sub>CC</sub></td>
+          <td>V<sub>DD</sub></td>
+          <td>V<sub>DD</sub></td>
+        </tr>
+        <tr>
+          <td>Output LOW (V<sub>OL</sub>)</td>
+          <td>0.1–0.2 V</td>
+          <td>0.1–0.2 V</td>
+          <td>0.1–0.2 V</td>
+          <td>Very small</td>
+          <td>0 V (ideal) / small</td>
+        </tr>
+        <tr>
+          <td>Noise Margin</td>
+          <td>Low</td>
+          <td>Good (~1 V)</td>
+          <td>Good (~0.4 V)</td>
+          <td>Moderate</td>
+          <td>Excellent (~V<sub>DD</sub>/2)</td>
+        </tr>
+        <tr>
+          <td>Static Power (High)</td>
+          <td>Negligible</td>
+          <td>Negligible</td>
+          <td>Non-zero</td>
+          <td>Non-zero</td>
+          <td><strong>Zero</strong> ✓</td>
+        </tr>
+        <tr>
+          <td>Static Power (Low)</td>
+          <td>Non-zero</td>
+          <td>Non-zero</td>
+          <td>Non-zero</td>
+          <td>Non-zero</td>
+          <td><strong>Zero</strong> ✓</td>
+        </tr>
+        <tr>
+          <td>Fanout</td>
+          <td>Low (~5)</td>
+          <td>Moderate (~8)</td>
+          <td>High (10+)</td>
+          <td>Moderate</td>
+          <td>Very High</td>
+        </tr>
+        <tr>
+          <td>Speed</td>
+          <td>Slow</td>
+          <td>Moderate</td>
+          <td>Fast</td>
+          <td>Fast</td>
+          <td>Fast</td>
+        </tr>
+        <tr>
+          <td>Integration</td>
+          <td>Discrete</td>
+          <td>Discrete</td>
+          <td>IC</td>
+          <td>VLSI</td>
+          <td>VLSI ✓</td>
+        </tr>
+        <tr>
+          <td>Transistor count</td>
+          <td>1 BJT/gate</td>
+          <td>1 BJT + diodes</td>
+          <td>3 BJTs (NAND)</td>
+          <td>2 NMOS/gate</td>
+          <td>2N MOSFET/gate</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">CMOS vs. NMOS — Key Differences</div>
+    <div class="grid-2">
+      <div>
+        <p style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;">CMOS ADVANTAGES</p>
+        <ul>
+          <li>Zero static power dissipation (both transistors never ON simultaneously)</li>
+          <li>V<sub>OH</sub> = V<sub>DD</sub>, V<sub>OL</sub> = 0 (full rail-to-rail swing)</li>
+          <li>NM ≈ V<sub>DD</sub>/2 (symmetric and large)</li>
+          <li>No load resistors needed</li>
+          <li>Scales well with V<sub>DD</sub></li>
+        </ul>
+      </div>
+      <div>
+        <p style="color:var(--accent4);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;">CMOS DISADVANTAGES</p>
+        <ul>
+          <li>Requires both NMOS and PMOS → more complex fabrication</li>
+          <li>Dynamic power: P = C·V<sub>DD</sub>²·f during switching</li>
+          <li>Short-circuit current flows during switching (both briefly ON)</li>
+          <li>Larger gate area than NMOS-only designs</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PROVIDED IN EXAM [P]
+════════════════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════════
+     SECTION — PROVIDED IN EXAM [P]
+════════════════════════════════════════════════════════════════ -->
+<section class="chapter" style="margin-top:20px;">
+  <div class="chapter-header">
+    <div class="ch-num" style="background:var(--accent4);font-size:11px;width:42px;">[ P ]</div>
+    <div>
+      <h2>Formulas &amp; Values Provided in Exam</h2>
+      <div class="ch-sub">You do NOT need to memorize these — they will be given</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-bottom:24px;">
+    <strong>From the syllabus:</strong> B-E (saturation) voltage, C-E (saturation) voltage, B-C (reverse active) voltage, Diode forward voltage drop, NMOS &amp; PMOS drain current formulas (both triode &amp; saturation), and other parameters needed for the specific problem.
+  </div>
+
+  <!-- BJT Voltages -->
+  <div class="card">
+    <div class="card-title">BJT Saturation &amp; Junction Voltages</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Symbol</th>
+          <th>Provided Value</th>
+          <th>Context</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Base-Emitter voltage (saturation)</td>
+          <td><code>V<sub>BE(sat)</sub></code></td>
+          <td style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-weight:600;">0.8 V</td>
+          <td>Used whenever BJT is assumed to be in <strong>saturation</strong> mode</td>
+        </tr>
+        <tr>
+          <td>Collector-Emitter voltage (saturation)</td>
+          <td><code>V<sub>CE(sat)</sub></code></td>
+          <td style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-weight:600;">0.1 V or 0.2 V</td>
+          <td>The output low voltage (V<sub>OL</sub>) of BJT-based logic; value given per problem</td>
+        </tr>
+        <tr>
+          <td>Base-Collector voltage (reverse active)</td>
+          <td><code>V<sub>BC(rev)</sub></code></td>
+          <td style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-weight:600;">0.7 V</td>
+          <td>B-C junction forward biased in reverse active mode (used in TTL case 1,1)</td>
+        </tr>
+        <tr>
+          <td>Diode forward voltage drop</td>
+          <td><code>V<sub>D</sub></code></td>
+          <td style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-weight:600;">0.7 V</td>
+          <td>Used for all diodes: input diodes in DTL, diodes in load circuits</td>
+        </tr>
+        <tr>
+          <td>B-E threshold (cut-off boundary)</td>
+          <td><code>V<sub>γ</sub></code></td>
+          <td style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-weight:600;">0.5 V</td>
+          <td>V<sub>BE</sub> must exceed 0.5 V to turn the BJT on from cut-off (used in V<sub>IL</sub> calculation)</td>
+        </tr>
+        <tr>
+          <td>Base-Emitter voltage (forward active)</td>
+          <td><code>V<sub>BE(act)</sub></code></td>
+          <td style="color:var(--accent);font-family:'IBM Plex Mono',monospace;font-weight:600;">0.7 V</td>
+          <td>Used when BJT is assumed in <strong>forward active</strong> mode</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="callout green" style="margin-top:14px;">
+      <strong>Memory tip (NOT needed — provided):</strong> Saturation has BOTH junctions forward → more "on" → higher V<sub>BE</sub> = 0.8 V. Active has only B-E forward → V<sub>BE</sub> = 0.7 V. The extra 0.1 V in saturation accounts for additional recombination current.
+    </div>
+  </div>
+
+  <!-- NMOS Formulas -->
+  <div class="card">
+    <div class="card-title">NMOS Drain Current Formulas</div>
+    <p style="margin-bottom:14px;">These exact expressions will be given on the exam. Understand when to apply each.</p>
+
+    <div class="grid-2">
+      <div>
+        <p style="color:var(--accent3);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;">TRIODE (Linear) Region</p>
+        <p style="color:var(--text-dim);font-size:12.5px;margin-bottom:8px;">Condition: V<sub>GS</sub> &gt; V<sub>TN</sub> AND V<sub>DS</sub> &lt; V<sub>OV</sub></p>
+        <div class="formula-block" style="font-size:13px;">
+          i<sub>D</sub> = K<sub>n</sub>[2(V<sub>GS</sub> − V<sub>TN</sub>)V<sub>DS</sub> − V<sub>DS</sub>²]
+        </div>
+      </div>
+      <div>
+        <p style="color:var(--accent2);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;">SATURATION Region</p>
+        <p style="color:var(--text-dim);font-size:12.5px;margin-bottom:8px;">Condition: V<sub>GS</sub> &gt; V<sub>TN</sub> AND V<sub>DS</sub> &gt; V<sub>OV</sub></p>
+        <div class="formula-block orange" style="font-size:13px;">
+          i<sub>D</sub> = K<sub>n</sub>(V<sub>GS</sub> − V<sub>TN</sub>)²
+        </div>
+      </div>
+    </div>
+
+    <table style="margin-top:14px;">
+      <thead><tr><th>Variable</th><th>Meaning</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td><code>K<sub>n</sub></code></td><td>NMOS process transconductance parameter</td><td>Given per problem (units: A/V² or mA/V²)</td></tr>
+        <tr><td><code>V<sub>TN</sub></code></td><td>NMOS threshold voltage</td><td>Given; &gt; 0 for enhancement, &lt; 0 for depletion</td></tr>
+        <tr><td><code>V<sub>OV</sub></code></td><td>Overdrive voltage = V<sub>GS</sub> − V<sub>TN</sub></td><td>Transition point: V<sub>DS</sub> = V<sub>OV</sub></td></tr>
+        <tr><td><code>V<sub>GS</sub></code></td><td>Gate-to-Source voltage</td><td>For depletion load with gate shorted to source: V<sub>GS</sub> = 0</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PMOS Formulas -->
+  <div class="card">
+    <div class="card-title">PMOS Drain Current Formulas</div>
+    <p style="margin-bottom:14px;">PMOS uses <strong>V<sub>SG</sub></strong> and <strong>V<sub>SD</sub></strong> (source referenced, since source is at top connected to V<sub>DD</sub>).</p>
+
+    <div class="grid-2">
+      <div>
+        <p style="color:var(--accent3);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;">TRIODE (Nonsaturation) Region</p>
+        <p style="color:var(--text-dim);font-size:12.5px;margin-bottom:8px;">Condition: V<sub>SG</sub> &gt; |V<sub>TP</sub>| AND V<sub>SD</sub> &lt; V<sub>OV,P</sub></p>
+        <div class="formula-block" style="font-size:13px;">
+          i<sub>D</sub> = K<sub>p</sub>[2(V<sub>SG</sub> + V<sub>TP</sub>)V<sub>SD</sub> − V<sub>SD</sub>²]
+        </div>
+      </div>
+      <div>
+        <p style="color:var(--accent2);font-family:'IBM Plex Mono',monospace;font-size:12px;margin-bottom:8px;">SATURATION Region</p>
+        <p style="color:var(--text-dim);font-size:12.5px;margin-bottom:8px;">Condition: V<sub>SG</sub> &gt; |V<sub>TP</sub>| AND V<sub>SD</sub> &gt; V<sub>OV,P</sub></p>
+        <div class="formula-block orange" style="font-size:13px;">
+          i<sub>D</sub> = K<sub>p</sub>(V<sub>SG</sub> + V<sub>TP</sub>)²
+        </div>
+      </div>
+    </div>
+
+    <table style="margin-top:14px;">
+      <thead><tr><th>Variable</th><th>Meaning</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td><code>K<sub>p</sub></code></td><td>PMOS process transconductance parameter</td><td>Given per problem</td></tr>
+        <tr><td><code>V<sub>TP</sub></code></td><td>PMOS threshold voltage</td><td>Given; &lt; 0 for enhancement, &gt; 0 for depletion. Note (V<sub>SG</sub> + V<sub>TP</sub>) since V<sub>TP</sub> is negative</td></tr>
+        <tr><td><code>V<sub>OV,P</sub></code></td><td>Overdrive = V<sub>SG</sub> + V<sub>TP</sub></td><td>Also: V<sub>OV,P</sub> = V<sub>SG</sub> − |V<sub>TP</sub>|</td></tr>
+        <tr><td><code>V<sub>SG</sub></code></td><td>Source-to-Gate voltage</td><td>= V<sub>DD</sub> − V<sub>I</sub> for CMOS inverter PMOS</td></tr>
+        <tr><td><code>V<sub>SD</sub></code></td><td>Source-to-Drain voltage</td><td>= V<sub>DD</sub> − V<sub>O</sub> for CMOS inverter PMOS</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout blue" style="margin-top:14px;">
+      <strong>CMOS Inverter PMOS variable substitutions:</strong><br>
+      V<sub>SG</sub> = V<sub>DD</sub> − V<sub>I</sub><br>
+      V<sub>SD</sub> = V<sub>DD</sub> − V<sub>O</sub><br>
+      So V<sub>OV,P</sub> = (V<sub>DD</sub> − V<sub>I</sub>) + V<sub>TP</sub> = V<sub>DD</sub> − V<sub>I</sub> − |V<sub>TP</sub>|
+    </div>
+  </div>
+
+  <!-- Other given parameters -->
+  <div class="card">
+    <div class="card-title">"Other Parameters Needed" — Typical Per-Problem Givens</div>
+    <p style="margin-bottom:12px;">These will always be stated in the problem. You never need to look them up.</p>
+    <table>
+      <thead><tr><th>Parameter</th><th>Symbol</th><th>Applies To</th></tr></thead>
+      <tbody>
+        <tr><td>Forward current gain</td><td><code>β<sub>F</sub></code></td><td>All BJT problems (RTL, DTL, TTL)</td></tr>
+        <tr><td>Reverse current gain</td><td><code>β<sub>R</sub></code></td><td>TTL problems (reverse active mode of Q<sub>1</sub>)</td></tr>
+        <tr><td>Supply voltages</td><td><code>V<sub>CC</sub>, V<sub>DD</sub>, −V<sub>S</sub></code></td><td>All circuits</td></tr>
+        <tr><td>Resistor values</td><td><code>R<sub>C</sub>, R<sub>B</sub>, R<sub>1</sub>, R<sub>D</sub>, …</code></td><td>All circuits</td></tr>
+        <tr><td>Output thresholds</td><td><code>V<sub>OH</sub>, V<sub>OL</sub></code></td><td>Fanout and noise margin problems</td></tr>
+        <tr><td>High &amp; low input levels</td><td><code>V<sub>high</sub>, V<sub>low</sub></code></td><td>Power dissipation and case analysis</td></tr>
+        <tr><td>MOSFET threshold voltages</td><td><code>V<sub>TN</sub>, V<sub>TP</sub></code></td><td>NMOS and CMOS problems</td></tr>
+        <tr><td>MOSFET gain parameters</td><td><code>K<sub>n</sub>, K<sub>p</sub>, K<sub>n</sub>', (W/L)</code></td><td>NMOS and CMOS problems</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- What you MUST memorize -->
+  <div class="card" style="border-color:rgba(240,74,110,0.3);">
+    <div class="card-title" style="color:var(--accent4);">⚠ What You MUST Know (NOT provided)</div>
+    <p style="margin-bottom:12px;">Everything else in the syllabus is your responsibility. In summary:</p>
+    <div class="grid-2">
+      <ul>
+        <li>BJT operating mode conditions and checking criteria</li>
+        <li>How RTL/DTL/TTL circuits work (case-by-case analysis)</li>
+        <li>Noise margin definitions and how to derive V<sub>IH</sub>, V<sub>IL</sub></li>
+        <li>Fanout methodology (current balance, β<sub>forced</sub>=β<sub>F</sub> condition)</li>
+        <li>Power dissipation method (trace each source × current)</li>
+      </ul>
+      <ul>
+        <li>MOSFET operating mode conditions (triode vs saturation vs cut-off)</li>
+        <li>When to apply which drain current formula</li>
+        <li>Depletion vs enhancement load behavior</li>
+        <li>CMOS VTC regions and V<sub>It</sub> formula</li>
+        <li>CMOS noise margin derivation (differentiate, set slope = −1)</li>
+        <li>CMOS logic implementation rules (conduction complement, PUN/PDN)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+</body>
+</html>
