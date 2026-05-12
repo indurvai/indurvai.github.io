@@ -1,6 +1,3 @@
-# CSE-350-FINAL-SPRING-26
-JUST FOR A SHORT REVIEW
-
 
 <!DOCTYPE html>
 <html lang="en">
