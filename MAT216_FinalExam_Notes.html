@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Final Exam — Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+/* ─── Reset & base ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0d1117;
+  --surface:   #161b22;
+  --surface2:  #1f2733;
+  --border:    #2a3240;
+  --accent:    #58c4a0;
+  --accent2:   #f0a05a;
+  --accent3:   #7b93d4;
+  --text:      #cdd9e5;
+  --text-dim:  #768898;
+  --text-head: #e6edf3;
+  --tag-bg:    rgba(88,196,160,0.10);
+  --radius:    10px;
+  --radius-lg: 14px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15.5px;
+  line-height: 1.75;
+  min-height: 100vh;
+}
+
+/* ─── Page header ───────────────────────────────────────────── */
+.page-header {
+  background: linear-gradient(135deg, #0d1117 0%, #141d2b 50%, #0d1117 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 2rem 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 80% at 20% 50%, rgba(88,196,160,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 70% at 80% 30%, rgba(123,147,212,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 700;
+  color: var(--text-head);
+  letter-spacing: -.01em;
+  position: relative;
+}
+.page-header h1 span { color: var(--accent); }
+.page-header p {
+  margin-top: .5rem;
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 300;
+  position: relative;
+}
+.badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--tag-bg);
+  border: 1px solid rgba(88,196,160,0.25);
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 12px; font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  position: relative;
+}
+.badge::before { content: '◎'; font-size: 10px; }
+
+/* ─── Layout ────────────────────────────────────────────────── */
+.container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+/* ─── Tabs ──────────────────────────────────────────────────── */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 2rem;
+}
+@media (min-width: 560px) { .tabs { grid-template-columns: repeat(4, 1fr); } }
+
+.tb {
+  position: relative;
+  padding: 10px 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s ease;
+  line-height: 1.35;
+}
+.tb:hover { background: var(--surface2); color: var(--text); border-color: #3a4a5c; }
+.tb.on {
+  background: var(--surface2);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(88,196,160,.15), inset 0 1px 0 rgba(88,196,160,.08);
+}
+.tb .num {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  opacity: .6;
+  margin-bottom: 3px;
+  letter-spacing: .06em;
+}
+.tb.on .num { opacity: 1; }
+
+/* ─── Topic panels ──────────────────────────────────────────── */
+.tp { display: none; animation: fadeIn .3s ease; }
+.tp.on { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ─── Section header ────────────────────────────────────────── */
+.sec-head {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-bottom: 1.75rem;
+}
+.sec-icon {
+  width: 42px; height: 42px; border-radius: 10px;
+  background: var(--tag-bg);
+  border: 1px solid rgba(88,196,160,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.sec-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.35rem; font-weight: 700;
+  color: var(--text-head); line-height: 1.3;
+  margin-bottom: .25rem;
+}
+.sec-sub { font-size: 13.5px; color: var(--text-dim); font-weight: 300; }
+
+/* ─── Formula box ───────────────────────────────────────────── */
+.fb {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem 1.4rem;
+  margin-bottom: 2rem;
+}
+.fl {
+  font-family: 'DM Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+.fm {
+  padding: 7px 0;
+  font-size: 14.5px;
+  line-height: 1.9;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+}
+.fm:last-child { border-bottom: none; }
+.lbl {
+  font-weight: 600;
+  color: var(--text-head);
+  font-size: 13px;
+}
+.note-dim { font-size: 13px; color: var(--text-dim); font-style: italic; margin-top: 4px; }
+
+/* ─── Example title ─────────────────────────────────────────── */
+.ex-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--text-head);
+  margin: 2rem 0 1.1rem;
+  display: flex; align-items: center; gap: 10px;
+}
+.ex-title::before {
+  content: 'EX';
+  font-family: 'DM Mono', monospace;
+  font-size: 9.5px; letter-spacing: .12em;
+  background: rgba(240,160,90,.12);
+  color: var(--accent2);
+  border: 1px solid rgba(240,160,90,.25);
+  border-radius: 5px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+}
+.ex-title.ex-b::before { content: 'EX B'; }
+.ex-title.ex-c::before { content: 'EX C'; }
+
+/* ─── Steps ─────────────────────────────────────────────────── */
+.sp {
+  display: flex; gap: 14px;
+  margin-bottom: 1.1rem;
+  align-items: flex-start;
+}
+.sn {
+  min-width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, #3fa882 100%);
+  color: #0d1117;
+  font-size: 12px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 4px;
+  box-shadow: 0 0 10px rgba(88,196,160,.25);
+}
+.sb { flex: 1; min-width: 0; }
+.sl {
+  font-size: 11px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--accent); margin-bottom: 5px;
+}
+.sm { font-size: 14.5px; line-height: 1.9; color: var(--text); }
+
+/* ─── Answer box ────────────────────────────────────────────── */
+.an {
+  background: rgba(88,196,160,.06);
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  margin-top: 8px;
+  border-radius: 0 8px 8px 0;
+  font-size: 14.5px; line-height: 1.9;
+  color: var(--text);
+}
+
+/* ─── Divider ───────────────────────────────────────────────── */
+.div {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 2rem 0;
+}
+
+/* ─── Inline highlight ──────────────────────────────────────── */
+.hi { color: var(--accent2); font-weight: 600; }
+
+/* ─── Info callout ──────────────────────────────────────────── */
+.callout {
+  background: rgba(123,147,212,.07);
+  border: 1px solid rgba(123,147,212,.2);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  font-size: 14px; line-height: 1.75;
+  color: var(--text-dim);
+  margin: 1rem 0 1.5rem;
+}
+.callout strong { color: var(--accent3); }
+
+/* ─── Summary table ─────────────────────────────────────────── */
+.stbl {
+  width: 100%; border-collapse: collapse;
+  font-size: 13.5px; margin: 1rem 0 1.5rem;
+  background: var(--surface);
+  border-radius: var(--radius); overflow: hidden;
+}
+.stbl th {
+  background: var(--surface2);
+  color: var(--accent);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 9px 14px; text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.stbl td {
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  color: var(--text);
+}
+.stbl tr:last-child td { border-bottom: none; }
+
+/* ─── KaTeX overrides ───────────────────────────────────────── */
+.katex { color: var(--text-head); }
+.katex-display { overflow-x: auto; padding: 4px 0; }
+</style>
+</head>
+<body>
+
+<!-- ═══ PAGE HEADER ═══════════════════════════════════════════ -->
+<div class="page-header">
+  <div class="badge">Final Examination — Study Guide</div>
+  <h1>Mathematics <span>&amp;</span> Applied Analysis</h1>
+  <p>Eigenvalues · Inner Products · Fourier Series · Fourier Transforms</p>
+</div>
+
+<!-- ═══ MAIN CONTENT ══════════════════════════════════════════ -->
+<div class="container">
+
+  <!-- TABS -->
+  <div class="tabs" role="tablist">
+    <button class="tb on" onclick="sw(0)"><span class="num">01</span>Eigenvalues &amp; Diagonalization</button>
+    <button class="tb" onclick="sw(1)"><span class="num">02</span>Inner Products &amp; Projections</button>
+    <button class="tb" onclick="sw(2)"><span class="num">03</span>Fourier Series</button>
+    <button class="tb" onclick="sw(3)"><span class="num">04</span>Fourier Transforms</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       TOPIC 1 — EIGENVALUES & DIAGONALIZATION
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="tp on" id="p0">
+    <div class="sec-head">
+      <div class="sec-icon">λ</div>
+      <div>
+        <div class="sec-title">Eigenvalues, Eigenvectors &amp; Diagonalization</div>
+        <div class="sec-sub">Decompose a square matrix into its spectral components.</div>
+      </div>
+    </div>
+
+    <!-- KEY FORMULAS -->
+    <div class="fb">
+      <p class="fl">Key Formulas</p>
+      <div class="fm"><span class="lbl">Characteristic equation:</span> $\det(A - \lambda I) = 0$</div>
+      <div class="fm"><span class="lbl">Eigenvector equation:</span> $(A - \lambda I)\,\mathbf{v} = \mathbf{0},\quad \mathbf{v} \neq \mathbf{0}$</div>
+      <div class="fm"><span class="lbl">Diagonalization:</span> $A = PDP^{-1}$, where $D = \operatorname{diag}(\lambda_1,\ldots,\lambda_n)$ and $P = [\mathbf{v}_1\;\cdots\;\mathbf{v}_n]$</div>
+      <div class="fm"><span class="lbl">Matrix power:</span> $A^k = PD^kP^{-1}$, where $D^k = \operatorname{diag}(\lambda_1^k,\ldots,\lambda_n^k)$</div>
+      <div class="fm"><span class="lbl">Algebraic multiplicity:</span> multiplicity of $\lambda$ as a root of $\det(A-\lambda I)=0$</div>
+      <div class="fm"><span class="lbl">Geometric multiplicity:</span> $\dim\ker(A-\lambda I)$ &mdash; number of linearly independent eigenvectors for $\lambda$</div>
+      <div class="fm note-dim">$A$ is diagonalizable $\iff$ geometric multiplicity $=$ algebraic multiplicity for every eigenvalue.</div>
+    </div>
+
+    <!-- EXAMPLE A -->
+    <div class="ex-title">Diagonalize $A = \begin{pmatrix}4 &amp; 1\\2 &amp; 3\end{pmatrix}$</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Form the characteristic equation</div>
+      <div class="sm">$$\det(A-\lambda I)=\det\!\begin{pmatrix}4-\lambda &amp; 1\\2 &amp; 3-\lambda\end{pmatrix}=(4-\lambda)(3-\lambda)-2=\lambda^2-7\lambda+10=0$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Solve for eigenvalues</div>
+      <div class="sm">$$(\lambda-5)(\lambda-2)=0\implies\boxed{\lambda_1=5,\quad\lambda_2=2}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Eigenvector for $\lambda_1=5$</div>
+      <div class="sm">$$A-5I=\begin{pmatrix}-1&amp;1\\2&amp;-2\end{pmatrix}\xrightarrow{R_2+2R_1}\begin{pmatrix}-1&amp;1\\0&amp;0\end{pmatrix}\implies y=x$$</div>
+      <div class="an">$\mathbf{v}_1=\begin{pmatrix}1\\1\end{pmatrix}$ &emsp; Verify: $A\mathbf{v}_1=\begin{pmatrix}5\\5\end{pmatrix}=5\mathbf{v}_1$ ✓</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">4</div><div class="sb">
+      <div class="sl">Eigenvector for $\lambda_2=2$</div>
+      <div class="sm">$$A-2I=\begin{pmatrix}2&amp;1\\2&amp;1\end{pmatrix}\xrightarrow{R_2-R_1}\begin{pmatrix}2&amp;1\\0&amp;0\end{pmatrix}\implies y=-2x$$</div>
+      <div class="an">$\mathbf{v}_2=\begin{pmatrix}1\\-2\end{pmatrix}$ &emsp; Verify: $A\mathbf{v}_2=\begin{pmatrix}2\\-4\end{pmatrix}=2\mathbf{v}_2$ ✓</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">5</div><div class="sb">
+      <div class="sl">Assemble $P$, $D$, and $P^{-1}$</div>
+      <div class="sm">$$P=\begin{pmatrix}1&amp;1\\1&amp;-2\end{pmatrix},\quad D=\begin{pmatrix}5&amp;0\\0&amp;2\end{pmatrix},\quad\det(P)=-3$$</div>
+      <div class="sm">$$P^{-1}=\frac{1}{-3}\begin{pmatrix}-2&amp;-1\\-1&amp;1\end{pmatrix}=\begin{pmatrix}\tfrac{2}{3}&amp;\tfrac{1}{3}\\[4pt]\tfrac{1}{3}&amp;-\tfrac{1}{3}\end{pmatrix}$$</div>
+      <div class="an">$$A=\begin{pmatrix}1&amp;1\\1&amp;-2\end{pmatrix}\!\begin{pmatrix}5&amp;0\\0&amp;2\end{pmatrix}\!\begin{pmatrix}\tfrac{2}{3}&amp;\tfrac{1}{3}\\[4pt]\tfrac{1}{3}&amp;-\tfrac{1}{3}\end{pmatrix}=PDP^{-1}\quad\checkmark$$</div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE B  3×3 -->
+    <div class="ex-title ex-b">Diagonalize $B = \begin{pmatrix}2&amp;0&amp;0\\1&amp;2&amp;0\\0&amp;0&amp;3\end{pmatrix}$, or show it is not diagonalizable</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Characteristic polynomial ($B$ is upper/lower triangular block)</div>
+      <div class="sm">For a triangular matrix the eigenvalues are the diagonal entries:</div>
+      <div class="sm">$$\det(B-\lambda I)=(2-\lambda)^2(3-\lambda)=0\implies\lambda_1=2\text{ (alg. mult. 2)},\quad\lambda_2=3\text{ (alg. mult. 1)}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Geometric multiplicity of $\lambda_1=2$</div>
+      <div class="sm">$$B-2I=\begin{pmatrix}0&amp;0&amp;0\\1&amp;0&amp;0\\0&amp;0&amp;1\end{pmatrix}\xrightarrow{\text{RREF}}\begin{pmatrix}1&amp;0&amp;0\\0&amp;0&amp;1\\0&amp;0&amp;0\end{pmatrix}$$</div>
+      <div class="sm">Free variable: $x_2$. So $\ker(B-2I)=\operatorname{span}\!\left\{\begin{pmatrix}0\\1\\0\end{pmatrix}\right\}$, which has dimension 1.</div>
+      <div class="an">Geometric multiplicity of $\lambda_1=2$ is <span class="hi">1</span>, but algebraic multiplicity is <span class="hi">2</span>. They differ!</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Conclusion</div>
+      <div class="sm">Since geometric mult. $\lt$ algebraic mult. for $\lambda=2$, matrix $B$ is <strong style="color:var(--accent2)">not diagonalizable</strong>.</div>
+      <div class="an">We can only find 2 linearly independent eigenvectors total (one for $\lambda=2$, one for $\lambda=3$), but we need 3 for a $3\times3$ matrix.</div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE C — matrix power -->
+    <div class="ex-title ex-c">Compute $A^{10}$ for $A = \begin{pmatrix}4&amp;1\\2&amp;3\end{pmatrix}$ using diagonalization</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Use $A^k = P D^k P^{-1}$ from Example A</div>
+      <div class="sm">$$D^{10}=\begin{pmatrix}5^{10}&amp;0\\0&amp;2^{10}\end{pmatrix}=\begin{pmatrix}9{,}765{,}625&amp;0\\0&amp;1{,}024\end{pmatrix}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Multiply $PD^{10}P^{-1}$</div>
+      <div class="sm">$$A^{10}=\begin{pmatrix}1&amp;1\\1&amp;-2\end{pmatrix}\begin{pmatrix}5^{10}&amp;0\\0&amp;2^{10}\end{pmatrix}\begin{pmatrix}\tfrac{2}{3}&amp;\tfrac{1}{3}\\[4pt]\tfrac{1}{3}&amp;-\tfrac{1}{3}\end{pmatrix}$$</div>
+      <div class="an">$$A^{10}=\frac{1}{3}\begin{pmatrix}2\cdot5^{10}+2^{10}&amp;5^{10}-2^{10}\\2(5^{10}-2^{10})&amp;5^{10}+2\cdot2^{10}\end{pmatrix}$$</div>
+    </div></div>
+  </div><!-- /p0 -->
+
+  <!-- ══════════════════════════════════════════════════════════
+       TOPIC 2 — INNER PRODUCTS & PROJECTIONS
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="tp" id="p1">
+    <div class="sec-head">
+      <div class="sec-icon">⟨·⟩</div>
+      <div>
+        <div class="sec-title">Inner Product, Orthogonality &amp; Orthogonal Projections</div>
+        <div class="sec-sub">Measuring angles and decomposing vectors in general vector and function spaces.</div>
+      </div>
+    </div>
+
+    <div class="fb">
+      <p class="fl">Key Formulas</p>
+      <div class="fm"><span class="lbl">Vector inner product ($\mathbb{R}^n$):</span> $\langle\mathbf{u},\mathbf{v}\rangle=\displaystyle\sum_{i=1}^n u_i v_i$</div>
+      <div class="fm"><span class="lbl">Function inner product on $[a,b]$:</span> $\langle f,g\rangle=\displaystyle\int_a^b f(x)\,g(x)\,dx$</div>
+      <div class="fm"><span class="lbl">Weighted inner product:</span> $\langle f,g\rangle_w=\displaystyle\int_a^b w(x)\,f(x)\,g(x)\,dx$</div>
+      <div class="fm"><span class="lbl">Norm:</span> $\|\mathbf{u}\|=\sqrt{\langle\mathbf{u},\mathbf{u}\rangle}$</div>
+      <div class="fm"><span class="lbl">Orthogonality:</span> $\mathbf{u}\perp\mathbf{v}\iff\langle\mathbf{u},\mathbf{v}\rangle=0$</div>
+      <div class="fm"><span class="lbl">Projection onto a vector $\mathbf{v}$:</span> $\operatorname{proj}_{\mathbf{v}}\mathbf{u}=\dfrac{\langle\mathbf{u},\mathbf{v}\rangle}{\langle\mathbf{v},\mathbf{v}\rangle}\,\mathbf{v}$</div>
+      <div class="fm"><span class="lbl">Projection onto subspace</span> $W=\operatorname{span}\{\mathbf{v}_1,\ldots,\mathbf{v}_k\}$ (orthogonal basis):</div>
+      <div class="fm" style="padding-left:1rem">$\hat{\mathbf{u}}=\displaystyle\sum_{i=1}^k\dfrac{\langle\mathbf{u},\mathbf{v}_i\rangle}{\langle\mathbf{v}_i,\mathbf{v}_i\rangle}\,\mathbf{v}_i$</div>
+      <div class="fm"><span class="lbl">Best approximation / orthogonal decomposition:</span> $\mathbf{u}=\hat{\mathbf{u}}+(\mathbf{u}-\hat{\mathbf{u}})$, where $\mathbf{u}-\hat{\mathbf{u}}\perp W$</div>
+    </div>
+
+    <!-- EXAMPLE A -->
+    <div class="ex-title">Project $\mathbf{u}=(3,\,1,\,-2)$ onto $\mathbf{v}=(1,\,2,\,-1)$</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Compute inner products</div>
+      <div class="sm">$\langle\mathbf{u},\mathbf{v}\rangle=(3)(1)+(1)(2)+(-2)(-1)=3+2+2=7$</div>
+      <div class="sm">$\langle\mathbf{v},\mathbf{v}\rangle=1^2+2^2+(-1)^2=6$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Apply the projection formula</div>
+      <div class="sm">$$\operatorname{proj}_{\mathbf{v}}\mathbf{u}=\frac{7}{6}\begin{pmatrix}1\\2\\-1\end{pmatrix}$$</div>
+      <div class="an">$$\operatorname{proj}_{\mathbf{v}}\mathbf{u}=\left(\frac{7}{6},\;\frac{7}{3},\;-\frac{7}{6}\right)$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Perpendicular (error) component</div>
+      <div class="sm">$$\mathbf{u}-\hat{\mathbf{u}}=\left(3-\tfrac{7}{6},\;1-\tfrac{7}{3},\;-2+\tfrac{7}{6}\right)=\left(\tfrac{11}{6},\;-\tfrac{4}{3},\;-\tfrac{5}{6}\right)$$</div>
+      <div class="an">Verify orthogonality: $\tfrac{11}{6}(1)+\!\left(-\tfrac{4}{3}\right)(2)+\!\left(-\tfrac{5}{6}\right)(-1)=\tfrac{11-16+5}{6}=0$ ✓</div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE B — subspace projection -->
+    <div class="ex-title ex-b">Project $\mathbf{u}=(1,\,2,\,3)$ onto $W=\operatorname{span}\!\left\{\mathbf{v}_1,\mathbf{v}_2\right\}$ where $\mathbf{v}_1=(1,1,0)$, $\mathbf{v}_2=(0,0,1)$</div>
+
+    <div class="callout"><strong>Check:</strong> First verify that $\mathbf{v}_1\perp\mathbf{v}_2$: $\langle\mathbf{v}_1,\mathbf{v}_2\rangle=(1)(0)+(1)(0)+(0)(1)=0$ ✓ — the basis is orthogonal, so we may apply the subspace projection formula directly.</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Projection coefficients</div>
+      <div class="sm">$\dfrac{\langle\mathbf{u},\mathbf{v}_1\rangle}{\langle\mathbf{v}_1,\mathbf{v}_1\rangle}=\dfrac{(1)(1)+(2)(1)+(3)(0)}{1+1+0}=\dfrac{3}{2}$</div>
+      <div class="sm" style="margin-top:6px">$\dfrac{\langle\mathbf{u},\mathbf{v}_2\rangle}{\langle\mathbf{v}_2,\mathbf{v}_2\rangle}=\dfrac{(1)(0)+(2)(0)+(3)(1)}{0+0+1}=3$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Assemble the projection</div>
+      <div class="sm">$$\hat{\mathbf{u}}=\frac{3}{2}\begin{pmatrix}1\\1\\0\end{pmatrix}+3\begin{pmatrix}0\\0\\1\end{pmatrix}=\begin{pmatrix}\tfrac{3}{2}\\\tfrac{3}{2}\\3\end{pmatrix}$$</div>
+      <div class="an">Residual: $\mathbf{u}-\hat{\mathbf{u}}=\left(-\tfrac{1}{2},\tfrac{1}{2},0\right)$. Check: $\left\langle\mathbf{u}-\hat{\mathbf{u}},\mathbf{v}_1\right\rangle=-\tfrac{1}{2}+\tfrac{1}{2}=0$ ✓, $\left\langle\mathbf{u}-\hat{\mathbf{u}},\mathbf{v}_2\right\rangle=0$ ✓</div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE C — function orthogonality -->
+    <div class="ex-title ex-c">Show $\{\sin(mx)\}$ and $\{\cos(nx)\}$ are mutually orthogonal on $[-\pi,\pi]$ (the orthogonality relations)</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">$\langle\sin(mx),\cos(nx)\rangle$ — parity argument</div>
+      <div class="sm">$\sin(mx)$ is odd; $\cos(nx)$ is even; product is <em>odd</em>.</div>
+      <div class="an">$$\int_{-\pi}^{\pi}\sin(mx)\cos(nx)\,dx=0\quad\text{for all }m,n$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">$\langle\sin(mx),\sin(nx)\rangle$ — product-to-sum</div>
+      <div class="sm">Use $\sin(mx)\sin(nx)=\tfrac{1}{2}[\cos((m-n)x)-\cos((m+n)x)]$:</div>
+      <div class="an">$$\int_{-\pi}^{\pi}\!\sin(mx)\sin(nx)\,dx=\begin{cases}0&amp;m\neq n\\\pi&amp;m=n\end{cases}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">$\langle\cos(mx),\cos(nx)\rangle$ — similarly</div>
+      <div class="an">$$\int_{-\pi}^{\pi}\!\cos(mx)\cos(nx)\,dx=\begin{cases}0&amp;m\neq n\\\pi&amp;m=n\end{cases},\qquad\int_{-\pi}^{\pi}1\,dx=2\pi$$</div>
+      <div class="sm" style="margin-top:8px;font-size:13px;color:var(--text-dim)">These three results underpin all Fourier coefficient formulas.</div>
+    </div></div>
+  </div><!-- /p1 -->
+
+  <!-- ══════════════════════════════════════════════════════════
+       TOPIC 3 — FOURIER SERIES
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="tp" id="p2">
+    <div class="sec-head">
+      <div class="sec-icon">∑</div>
+      <div>
+        <div class="sec-title">Fourier Series, Sine &amp; Cosine Series, Parseval's Identity</div>
+        <div class="sec-sub">Representing periodic and half-range functions as infinite sums of sinusoids.</div>
+      </div>
+    </div>
+
+    <div class="fb">
+      <p class="fl">Key Formulas</p>
+      <div class="fm"><span class="lbl">Full Fourier Series on $[-L,L]$:</span> $f(x)=\dfrac{a_0}{2}+\displaystyle\sum_{n=1}^{\infty}\!\left[a_n\cos\!\left(\tfrac{n\pi x}{L}\right)+b_n\sin\!\left(\tfrac{n\pi x}{L}\right)\right]$</div>
+      <div class="fm" style="font-size:13.5px">$a_0=\tfrac{1}{L}\displaystyle\int_{-L}^{L}f\,dx,\quad a_n=\tfrac{1}{L}\displaystyle\int_{-L}^{L}f\cos\!\left(\tfrac{n\pi x}{L}\right)dx,\quad b_n=\tfrac{1}{L}\displaystyle\int_{-L}^{L}f\sin\!\left(\tfrac{n\pi x}{L}\right)dx$</div>
+      <div class="fm"><span class="lbl">Fourier Sine Series on $[0,L]$</span> (odd extension):</div>
+      <div class="fm" style="padding-left:1rem;font-size:13.5px">$f(x)=\displaystyle\sum_{n=1}^\infty b_n\sin\!\left(\tfrac{n\pi x}{L}\right),\quad b_n=\tfrac{2}{L}\displaystyle\int_0^L f(x)\sin\!\left(\tfrac{n\pi x}{L}\right)dx$</div>
+      <div class="fm"><span class="lbl">Fourier Cosine Series on $[0,L]$</span> (even extension):</div>
+      <div class="fm" style="padding-left:1rem;font-size:13.5px">$f(x)=\dfrac{a_0}{2}+\displaystyle\sum_{n=1}^\infty a_n\cos\!\left(\tfrac{n\pi x}{L}\right),\quad a_n=\tfrac{2}{L}\displaystyle\int_0^L f(x)\cos\!\left(\tfrac{n\pi x}{L}\right)dx$</div>
+      <div class="fm"><span class="lbl">Parseval's Identity (full series on $[-L,L]$):</span></div>
+      <div class="fm" style="padding-left:1rem">$\dfrac{1}{L}\displaystyle\int_{-L}^{L}[f(x)]^2\,dx=\dfrac{a_0^2}{2}+\displaystyle\sum_{n=1}^{\infty}(a_n^2+b_n^2)$</div>
+    </div>
+
+    <!-- EXAMPLE A — Full Fourier Series -->
+    <div class="ex-title">Full Fourier Series of $f(x)=x$ on $[-\pi,\pi]$</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Compute $a_0$</div>
+      <div class="sm">$f(x)=x$ is odd, so $\displaystyle\int_{-\pi}^{\pi}x\,dx=0$. Therefore $a_0=0$.</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Compute $a_n$ — odd × even = odd</div>
+      <div class="sm">$$a_n=\frac{1}{\pi}\int_{-\pi}^{\pi}x\cos(nx)\,dx=0\quad\text{(odd integrand on symmetric interval)}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Compute $b_n$ via integration by parts</div>
+      <div class="sm">$x\sin(nx)$ is even, so double the half-interval:</div>
+      <div class="sm">$$b_n=\frac{2}{\pi}\int_0^{\pi}x\sin(nx)\,dx$$</div>
+      <div class="sm">IBP: $u=x,\;dv=\sin(nx)\,dx$, so $du=dx,\;v=-\tfrac{\cos(nx)}{n}$:</div>
+      <div class="sm">$$=\frac{2}{\pi}\!\left[-\frac{x\cos(nx)}{n}\right]_0^{\pi}+\frac{2}{\pi n}\int_0^{\pi}\cos(nx)\,dx=\frac{2}{\pi}\!\left(-\frac{\pi\cos(n\pi)}{n}\right)+0$$</div>
+      <div class="an">$$b_n=\frac{2(-1)^{n+1}}{n}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">4</div><div class="sb">
+      <div class="sl">Full Fourier series</div>
+      <div class="an">$$x=\sum_{n=1}^{\infty}\frac{2(-1)^{n+1}}{n}\sin(nx)=2\sin x-\sin 2x+\frac{2}{3}\sin 3x-\cdots$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">5</div><div class="sb">
+      <div class="sl">Verify with Parseval's Identity</div>
+      <div class="sm"><span class="lbl">LHS:</span> $\dfrac{1}{\pi}\displaystyle\int_{-\pi}^{\pi}x^2\,dx=\dfrac{1}{\pi}\cdot\dfrac{2\pi^3}{3}=\dfrac{2\pi^2}{3}$</div>
+      <div class="sm"><span class="lbl">RHS:</span> $\displaystyle\sum_{n=1}^{\infty}b_n^2=\sum_{n=1}^{\infty}\frac{4}{n^2}=4\cdot\frac{\pi^2}{6}=\frac{2\pi^2}{3}$ ✓</div>
+      <div class="an">Bonus — the Basel problem: $\displaystyle\sum_{n=1}^{\infty}\dfrac{1}{n^2}=\dfrac{\pi^2}{6}$</div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE B — Fourier Sine Series -->
+    <div class="ex-title ex-b">Fourier Sine Series of $f(x)=1$ on $[0,\pi]$</div>
+
+    <div class="callout"><strong>Strategy:</strong> Expand $f(x)=1$ using odd extension onto $[-\pi,\pi]$. Only $b_n$ coefficients appear; $a_n=0$ for all $n$.</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Compute $b_n$ (here $L=\pi$, so $\tfrac{n\pi x}{L}=nx$)</div>
+      <div class="sm">$$b_n=\frac{2}{\pi}\int_0^{\pi}1\cdot\sin(nx)\,dx=\frac{2}{\pi}\left[-\frac{\cos(nx)}{n}\right]_0^{\pi}=\frac{2}{\pi n}\!\left(1-\cos(n\pi)\right)=\frac{2}{\pi n}\!\left(1-(-1)^n\right)$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Simplify</div>
+      <div class="sm">When $n$ is even: $1-(-1)^n=0$, so $b_n=0$.</div>
+      <div class="sm">When $n$ is odd: $1-(-1)^n=2$, so $b_n=\dfrac{4}{\pi n}$.</div>
+      <div class="an">$$1=\frac{4}{\pi}\!\left(\sin x+\frac{\sin 3x}{3}+\frac{\sin 5x}{5}+\cdots\right)=\frac{4}{\pi}\sum_{k=0}^{\infty}\frac{\sin\!\big((2k+1)x\big)}{2k+1}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Bonus: set $x=\tfrac{\pi}{2}$ to recover Leibniz formula</div>
+      <div class="sm">Since $f\!\left(\tfrac{\pi}{2}\right)=1$ and $\sin\!\left(\tfrac{(2k+1)\pi}{2}\right)=(-1)^k$:</div>
+      <div class="an">$$1=\frac{4}{\pi}\!\left(1-\frac{1}{3}+\frac{1}{5}-\frac{1}{7}+\cdots\right)\implies\frac{\pi}{4}=\sum_{k=0}^{\infty}\frac{(-1)^k}{2k+1}$$</div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE C — Fourier Cosine Series -->
+    <div class="ex-title ex-c">Fourier Cosine Series of $f(x)=x$ on $[0,L]$</div>
+
+    <div class="callout"><strong>Strategy:</strong> Even extension of $f(x)=x$ onto $[-L,L]$. Only $a_n$ coefficients appear; $b_n=0$ for all $n$.</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Compute $a_0$</div>
+      <div class="sm">$$a_0=\frac{2}{L}\int_0^L x\,dx=\frac{2}{L}\cdot\frac{L^2}{2}=L$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Compute $a_n$ — integration by parts</div>
+      <div class="sm">$$a_n=\frac{2}{L}\int_0^L x\cos\!\left(\frac{n\pi x}{L}\right)dx$$</div>
+      <div class="sm">IBP: $u=x$, $dv=\cos\!\left(\tfrac{n\pi x}{L}\right)dx$, so $du=dx$, $v=\dfrac{L}{n\pi}\sin\!\left(\tfrac{n\pi x}{L}\right)$:</div>
+      <div class="sm">$$a_n=\frac{2}{L}\!\left\{\left[\frac{Lx}{n\pi}\sin\!\left(\frac{n\pi x}{L}\right)\right]_0^L-\int_0^L\frac{L}{n\pi}\sin\!\left(\frac{n\pi x}{L}\right)dx\right\}$$</div>
+      <div class="sm">First bracket: $\sin(n\pi)=0$, so the boundary term vanishes.</div>
+      <div class="sm">$$a_n=\frac{2}{L}\cdot\frac{L}{n\pi}\left[\frac{L}{n\pi}\cos\!\left(\frac{n\pi x}{L}\right)\right]_0^L=\frac{2L}{n^2\pi^2}\!\left(\cos(n\pi)-1\right)=\frac{2L}{n^2\pi^2}\!\left((-1)^n-1\right)$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Simplify</div>
+      <div class="sm">For even $n$: $(-1)^n-1=0\implies a_n=0$.</div>
+      <div class="sm">For odd $n$: $(-1)^n-1=-2\implies a_n=\dfrac{-4L}{n^2\pi^2}$.</div>
+      <div class="an">$$x=\frac{L}{2}-\frac{4L}{\pi^2}\!\left(\cos\!\frac{\pi x}{L}+\frac{\cos\!\frac{3\pi x}{L}}{9}+\frac{\cos\!\frac{5\pi x}{L}}{25}+\cdots\right)=\frac{L}{2}-\frac{4L}{\pi^2}\sum_{k=0}^{\infty}\frac{\cos\!\left(\frac{(2k+1)\pi x}{L}\right)}{(2k+1)^2}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">4</div><div class="sb">
+      <div class="sl">Verify with Parseval's for the cosine series</div>
+      <div class="sm"><span class="lbl">Parseval (cosine form):</span> $\dfrac{2}{L}\displaystyle\int_0^L[f(x)]^2\,dx=\dfrac{a_0^2}{2}+\displaystyle\sum_{n=1}^\infty a_n^2$</div>
+      <div class="sm"><span class="lbl">LHS:</span> $\dfrac{2}{L}\displaystyle\int_0^L x^2\,dx=\dfrac{2}{L}\cdot\dfrac{L^3}{3}=\dfrac{2L^2}{3}$</div>
+      <div class="sm"><span class="lbl">RHS:</span> $\dfrac{L^2}{2}+\displaystyle\sum_{\substack{n=1\\n\text{ odd}}}^\infty\dfrac{16L^2}{n^4\pi^4}=\dfrac{L^2}{2}+\dfrac{16L^2}{\pi^4}\cdot\dfrac{\pi^4}{96}=\dfrac{L^2}{2}+\dfrac{L^2}{6}=\dfrac{2L^2}{3}$ ✓</div>
+    </div></div>
+  </div><!-- /p2 -->
+
+  <!-- ══════════════════════════════════════════════════════════
+       TOPIC 4 — FOURIER TRANSFORMS
+  ═══════════════════════════════════════════════════════════════ -->
+  <div class="tp" id="p3">
+    <div class="sec-head">
+      <div class="sec-icon">𝒻̂</div>
+      <div>
+        <div class="sec-title">Fourier Transforms (including Sine &amp; Cosine Transforms)</div>
+        <div class="sec-sub">Extending Fourier analysis to non-periodic functions on $(-\infty,\infty)$ and $[0,\infty)$.</div>
+      </div>
+    </div>
+
+    <div class="fb">
+      <p class="fl">Key Formulas</p>
+      <div class="fm"><span class="lbl">Fourier Transform:</span> $\mathcal{F}\{f\}(\omega)=\hat{f}(\omega)=\displaystyle\int_{-\infty}^{\infty}f(x)\,e^{-i\omega x}\,dx$</div>
+      <div class="fm"><span class="lbl">Inverse Fourier Transform:</span> $f(x)=\dfrac{1}{2\pi}\displaystyle\int_{-\infty}^{\infty}\hat{f}(\omega)\,e^{i\omega x}\,d\omega$</div>
+      <div class="fm"><span class="lbl">Fourier Sine Transform:</span></div>
+      <div class="fm" style="padding-left:1rem;font-size:13.5px">$\mathcal{F}_s\{f\}(\omega)=\displaystyle\int_0^{\infty}f(x)\sin(\omega x)\,dx;\quad$ inverse: $f(x)=\dfrac{2}{\pi}\displaystyle\int_0^{\infty}\mathcal{F}_s\{f\}(\omega)\sin(\omega x)\,d\omega$</div>
+      <div class="fm"><span class="lbl">Fourier Cosine Transform:</span></div>
+      <div class="fm" style="padding-left:1rem;font-size:13.5px">$\mathcal{F}_c\{f\}(\omega)=\displaystyle\int_0^{\infty}f(x)\cos(\omega x)\,dx;\quad$ inverse: $f(x)=\dfrac{2}{\pi}\displaystyle\int_0^{\infty}\mathcal{F}_c\{f\}(\omega)\cos(\omega x)\,d\omega$</div>
+      <div class="fm" style="margin-top:4px"><span class="lbl">Linearity:</span> $\mathcal{F}\{af+bg\}=a\hat{f}+b\hat{g}$</div>
+      <div class="fm"><span class="lbl">Derivative rule:</span> $\mathcal{F}\{f'\}=i\omega\,\hat{f}(\omega);\quad \mathcal{F}\{f''\}=-\omega^2\hat{f}(\omega)$</div>
+      <div class="fm"><span class="lbl">Convolution theorem:</span> $\mathcal{F}\{f*g\}=\hat{f}(\omega)\cdot\hat{g}(\omega)$</div>
+      <div class="fm"><span class="lbl">FST derivative rule:</span> $\mathcal{F}_s\{f'\}(\omega)=-\omega\,\mathcal{F}_c\{f\}(\omega)$</div>
+      <div class="fm"><span class="lbl">FCT derivative rule:</span> $\mathcal{F}_c\{f'\}(\omega)=\omega\,\mathcal{F}_s\{f\}(\omega)-f(0)$</div>
+    </div>
+
+    <!-- Quick reference table -->
+    <p class="fl" style="margin-bottom:.5rem">Common Transform Pairs</p>
+    <table class="stbl">
+      <thead><tr><th>$f(x)$</th><th>$\mathcal{F}\{f\}(\omega)$</th><th>$\mathcal{F}_s\{f\}(\omega)$</th><th>$\mathcal{F}_c\{f\}(\omega)$</th></tr></thead>
+      <tbody>
+        <tr><td>$e^{-a|x|}$, $a>0$</td><td>$\dfrac{2a}{a^2+\omega^2}$</td><td>—</td><td>—</td></tr>
+        <tr><td>$e^{-ax}$, $x\geq0$, $a>0$</td><td>—</td><td>$\dfrac{\omega}{a^2+\omega^2}$</td><td>$\dfrac{a}{a^2+\omega^2}$</td></tr>
+        <tr><td>$\operatorname{rect}(x)$ (box on $[-1,1]$)</td><td>$\dfrac{2\sin\omega}{\omega}$</td><td>—</td><td>—</td></tr>
+        <tr><td>$e^{-a^2x^2}$</td><td>$\dfrac{\sqrt{\pi}}{a}e^{-\omega^2/(4a^2)}$</td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <!-- EXAMPLE A -->
+    <div class="ex-title">Fourier Transform of $f(x)=e^{-a|x|}$, $a>0$</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Split the integral at $x=0$</div>
+      <div class="sm">$$\hat{f}(\omega)=\int_{-\infty}^{0}e^{ax}e^{-i\omega x}\,dx+\int_0^{\infty}e^{-ax}e^{-i\omega x}\,dx=\int_{-\infty}^{0}e^{(a-i\omega)x}\,dx+\int_0^{\infty}e^{-(a+i\omega)x}\,dx$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Evaluate each integral ($a>0$ ensures convergence)</div>
+      <div class="sm">$$\int_{-\infty}^{0}e^{(a-i\omega)x}\,dx=\frac{1}{a-i\omega},\qquad\int_{0}^{\infty}e^{-(a+i\omega)x}\,dx=\frac{1}{a+i\omega}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Combine</div>
+      <div class="sm">$$\hat{f}(\omega)=\frac{1}{a-i\omega}+\frac{1}{a+i\omega}=\frac{2a}{a^2+\omega^2}$$</div>
+      <div class="an">$$\boxed{\mathcal{F}\!\left\{e^{-a|x|}\right\}=\dfrac{2a}{a^2+\omega^2}}$$</div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE B -->
+    <div class="ex-title ex-b">Fourier Sine Transform of $f(x)=e^{-ax}$, $x\geq0$, $a>0$</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Set up — integrate by parts (first pass)</div>
+      <div class="sm">Let $I=\displaystyle\int_0^{\infty}e^{-ax}\sin(\omega x)\,dx$. IBP with $u=\sin(\omega x)$, $dv=e^{-ax}dx$:</div>
+      <div class="sm">$$I=\!\left[-\frac{e^{-ax}\sin(\omega x)}{a}\right]_0^{\infty}+\frac{\omega}{a}\int_0^{\infty}e^{-ax}\cos(\omega x)\,dx=\frac{\omega}{a}\int_0^{\infty}e^{-ax}\cos(\omega x)\,dx$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Second integration by parts</div>
+      <div class="sm">$$I=\frac{\omega}{a}\!\left\{\left[-\frac{e^{-ax}\cos(\omega x)}{a}\right]_0^{\infty}-\frac{\omega}{a}\,I\right\}=\frac{\omega}{a}\!\left\{\frac{1}{a}-\frac{\omega}{a}\,I\right\}=\frac{\omega}{a^2}-\frac{\omega^2}{a^2}\,I$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Solve for $I$</div>
+      <div class="sm">$$I\!\left(1+\frac{\omega^2}{a^2}\right)=\frac{\omega}{a^2}\implies I=\frac{\omega}{a^2+\omega^2}$$</div>
+      <div class="an">$$\boxed{\mathcal{F}_s\!\left\{e^{-ax}\right\}=\dfrac{\omega}{a^2+\omega^2}}$$</div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE C — Cosine Transform (full worked) -->
+    <div class="ex-title ex-c">Fourier Cosine Transform of $f(x)=e^{-ax}$, $x\geq0$, $a>0$</div>
+
+    <div class="callout"><strong>Note:</strong> The FCT is used for functions defined on $[0,\infty)$ that are represented by even extensions. The calculation below closely mirrors the FST but uses $\cos$ instead of $\sin$.</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Set up — integrate by parts (first pass)</div>
+      <div class="sm">Let $J=\displaystyle\int_0^{\infty}e^{-ax}\cos(\omega x)\,dx$. IBP with $u=\cos(\omega x)$, $dv=e^{-ax}dx$:</div>
+      <div class="sm">$$J=\!\left[-\frac{e^{-ax}\cos(\omega x)}{a}\right]_0^{\infty}-\frac{\omega}{a}\int_0^{\infty}e^{-ax}\sin(\omega x)\,dx$$</div>
+      <div class="sm">Boundary term: at $x\to\infty$, $e^{-ax}\to0$; at $x=0$, $\cos(0)=1$. So:</div>
+      <div class="sm">$$J=\frac{1}{a}-\frac{\omega}{a}\int_0^{\infty}e^{-ax}\sin(\omega x)\,dx$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Second integration by parts (on the remaining integral)</div>
+      <div class="sm">IBP on $\displaystyle\int_0^\infty e^{-ax}\sin(\omega x)\,dx$ with $u=\sin(\omega x)$, $dv=e^{-ax}dx$:</div>
+      <div class="sm">$$\int_0^\infty e^{-ax}\sin(\omega x)\,dx=\left[-\frac{e^{-ax}\sin(\omega x)}{a}\right]_0^\infty+\frac{\omega}{a}\int_0^\infty e^{-ax}\cos(\omega x)\,dx=\frac{\omega}{a}\,J$$</div>
+      <div class="sm">Substituting back:</div>
+      <div class="sm">$$J=\frac{1}{a}-\frac{\omega}{a}\cdot\frac{\omega}{a}\,J=\frac{1}{a}-\frac{\omega^2}{a^2}\,J$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">3</div><div class="sb">
+      <div class="sl">Solve for $J$</div>
+      <div class="sm">$$J\!\left(1+\frac{\omega^2}{a^2}\right)=\frac{1}{a}\implies J\cdot\frac{a^2+\omega^2}{a^2}=\frac{1}{a}\implies J=\frac{a}{a^2+\omega^2}$$</div>
+      <div class="an">$$\boxed{\mathcal{F}_c\!\left\{e^{-ax}\right\}=\dfrac{a}{a^2+\omega^2}}$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">4</div><div class="sb">
+      <div class="sl">Summary &amp; symmetry between FST and FCT</div>
+      <div class="an">
+        $$\mathcal{F}_s\!\left\{e^{-ax}\right\}=\frac{\omega}{a^2+\omega^2}\qquad\mathcal{F}_c\!\left\{e^{-ax}\right\}=\frac{a}{a^2+\omega^2}$$
+        Note that the two results add to $\mathcal{F}\!\left\{e^{-ax}\right\}$ on $[0,\infty)$, consistent with the full FT of $e^{-a|x|}=\dfrac{2a}{a^2+\omega^2}$ (which equals twice the FCT result).
+      </div>
+    </div></div>
+
+    <div class="div"></div>
+
+    <!-- EXAMPLE D — derivative rule application -->
+    <div class="ex-title" style="margin-top:1rem">Application of the Derivative Rule: $\mathcal{F}\{f''\}=-\omega^2\hat{f}(\omega)$</div>
+
+    <div class="callout"><strong>Problem:</strong> Find $\mathcal{F}\{e^{-a|x|}\}$ using the fact that $f(x)=e^{-a|x|}$ satisfies $f''-a^2f=-2a\,\delta(x)$, and verify against Example A.</div>
+
+    <div class="sp"><div class="sn">1</div><div class="sb">
+      <div class="sl">Take the Fourier transform of the ODE</div>
+      <div class="sm">$$\mathcal{F}\{f''\}-a^2\mathcal{F}\{f\}=\mathcal{F}\{-2a\,\delta(x)\}=-2a$$</div>
+      <div class="sm">Using $\mathcal{F}\{f''\}=-\omega^2\hat{f}$:</div>
+      <div class="sm">$$-\omega^2\hat{f}-a^2\hat{f}=-2a\implies\hat{f}(\omega)\left(\omega^2+a^2\right)=2a$$</div>
+    </div></div>
+
+    <div class="sp"><div class="sn">2</div><div class="sb">
+      <div class="sl">Solve</div>
+      <div class="an">$$\hat{f}(\omega)=\frac{2a}{a^2+\omega^2}\quad\checkmark\text{ (matches Example A)}$$</div>
+    </div></div>
+  </div><!-- /p3 -->
+
+</div><!-- /container -->
+
+<!-- ═══ SCRIPTS ════════════════════════════════════════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+renderMathInElement(document.body, {
+  delimiters: [
+    { left: '$$', right: '$$', display: true },
+    { left: '$',  right: '$',  display: false }
+  ],
+  throwOnError: false
+});
+
+function sw(i) {
+  document.querySelectorAll('.tb').forEach((b, j) => b.classList.toggle('on', i === j));
+  document.querySelectorAll('.tp').forEach((p, j) => p.classList.toggle('on', i === j));
+}
+</script>
+</body>
+</html>
